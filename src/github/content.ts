@@ -238,6 +238,26 @@ async function listDirectory(
   return results;
 }
 
+/** Reads a raw text file from the configured content repo at `branch`.
+ *  Returns null if the file does not exist (404). Throws on other errors.
+ *  Intended for callers (like the author-context loader) that need to read
+ *  arbitrary plain-text files outside the collection-aware machinery. */
+export async function readRepoFileText(
+  accessToken: string,
+  config: GitcmsConfig,
+  path: string,
+  branch?: string,
+): Promise<string | null> {
+  const ref = branch ?? config.content.branch;
+  try {
+    const file = await getFile(createGitHubClient(accessToken), config, path, ref);
+    return decodeGitHubContent(file);
+  } catch (error) {
+    if (isGitHubStatus(error, 404)) return null;
+    throw error;
+  }
+}
+
 async function getFile(
   octokit: Octokit,
   config: GitcmsConfig,

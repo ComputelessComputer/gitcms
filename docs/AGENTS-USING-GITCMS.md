@@ -183,8 +183,6 @@ Co-authored-by: Alice <alice@example.com>
 
 ## Author Context: read the brief before you write
 
-> ⚠️ **Author Context (the writing brief feature) is on the roadmap and not shipped in v0.0.1 yet.** This section describes the convention agents should follow once it lands. Until then, agents should look for `content/.gitcms/` files manually if the user mentions a writing brief.
-
 A gitcms content repo can include a writing brief that tells you (the agent) how to write. It lives in the content repo at:
 
 ```
