@@ -11,13 +11,26 @@ import type {
   TableRow,
 } from "mdast";
 
-import { rawMdxNodeName, rawMdxFromHtml, type RawMdxPlaceholderMap } from "./mdx-jsx-utils";
+import {
+  defaultComponentRegistry,
+  type ComponentRegistry,
+  type ComponentRegistryContext,
+} from "../component-registry";
+import {
+  getRawMdxAttrs,
+  rawMdxNodeName,
+  rawMdxFromHtml,
+  type RawMdxPlaceholderMap,
+} from "./mdx-jsx-utils";
+import { parseMarkdownAst } from "./markdown-processor";
+import { extractRawMdx } from "./raw-mdx-extract";
 
 type JsonAttrs = NonNullable<JSONContent["attrs"]>;
 type JsonMark = NonNullable<JSONContent["marks"]>[number];
 
 interface MdastToJsonOptions {
   rawMdxById?: RawMdxPlaceholderMap;
+  componentRegistry?: ComponentRegistry;
 }
 
 /** Converts a remark/mdast tree into Tiptap JSONContent. */
@@ -211,12 +224,48 @@ function htmlToJson(
 ): JSONContent[] {
   const rawMdx = options.rawMdxById ? rawMdxFromHtml(value, options.rawMdxById) : null;
   if (rawMdx) {
+    const attrs = getRawMdxAttrs(rawMdx);
+    const registry = options.componentRegistry ?? defaultComponentRegistry;
+    const entry = attrs && fallbackKind === "flow" ? registry.get(attrs.name) : undefined;
+    const registered = entry?.mdastToJson(
+      { type: "html", value: attrs?.raw ?? value },
+      createRegistryContext(options),
+    );
+    if (registered) {
+      return [registered];
+    }
     return [rawMdx];
   }
 
   return fallbackKind === "flow"
     ? [paragraphJson([{ type: "text", value }], options)]
     : textJson(value);
+}
+
+function createRegistryContext(options: MdastToJsonOptions): ComponentRegistryContext {
+  return {
+    markdownToJson(markdown) {
+      const body = trimOuterBlankLines(markdown);
+      if (!body) {
+        return [];
+      }
+
+      const extracted = extractRawMdx(body);
+      return (
+        mdastToJson(parseMarkdownAst(extracted.markdown), {
+          ...options,
+          rawMdxById: extracted.rawMdxById,
+        }).content ?? []
+      );
+    },
+    jsonToMarkdown() {
+      return "";
+    },
+  };
+}
+
+function trimOuterBlankLines(value: string): string {
+  return value.replace(/^\s*\n/, "").replace(/\n\s*$/, "");
 }
 
 function textJson(text: string, marks?: JsonMark[]): JSONContent[] {

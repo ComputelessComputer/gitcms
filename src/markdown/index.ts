@@ -6,9 +6,5 @@ export {
   type ComponentRegistryEntry,
 } from "./component-registry";
 export { markdownToHtml } from "./html";
-export {
-  parseMarkdownAst,
-  remarkMarkdownAdapter,
-  splitFrontmatter,
-  stringifyMarkdownAst,
-} from "./remark-adapter";
+export { remarkMarkdownAdapter, splitFrontmatter } from "./remark-adapter";
+export { parseMarkdownAst, stringifyMarkdownAst } from "./ast/markdown-processor";

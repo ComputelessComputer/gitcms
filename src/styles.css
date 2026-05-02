@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #0f766e;
+  --color-primary-light: #ccfbf1;
+  --color-background-dark: #0e0e0f;
+  --color-codeblock: #111827;
+}
+
 :root {
   color-scheme: light;
   --background: #f7f8fb;
@@ -150,4 +157,218 @@ select {
   min-height: 2.4rem;
   resize: horizontal;
   white-space: nowrap;
+}
+
+.gitcms-mdx-node {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.gitcms-mdx-node-toolbar {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+}
+
+.gitcms-mdx-edit-button {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 8%);
+}
+
+.gitcms-mdx-edit-button:hover,
+.gitcms-mdx-edit-button[aria-pressed="true"] {
+  border-color: #0f766e;
+  color: #0f766e;
+}
+
+.gitcms-mdx-props-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 0.75rem;
+}
+
+.gitcms-mdx-props-panel label {
+  display: grid;
+  gap: 0.3rem;
+  color: #475467;
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.gitcms-mdx-props-panel input,
+.gitcms-mdx-props-panel select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 0.45rem 0.55rem;
+  color: #0f172a;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.gitcms-mdx-checkbox-label {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.gitcms-mdx-checkbox-label input {
+  width: 1rem;
+  height: 1rem;
+}
+
+.gitcms-mdx-content > :first-child,
+.gitcms-mdx-tab-content > :first-child,
+.gitcms-mdx-step-content > :first-child {
+  margin-top: 0;
+}
+
+.gitcms-mdx-content > :last-child,
+.gitcms-mdx-tab-content > :last-child,
+.gitcms-mdx-step-content > :last-child {
+  margin-bottom: 0;
+}
+
+.gitcms-mdx-tabs {
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0 1rem 1rem;
+}
+
+.gitcms-mdx-tabs-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.gitcms-mdx-tab {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 0.85rem;
+}
+
+.gitcms-mdx-tab:first-child {
+  border-top: 0;
+}
+
+.gitcms-mdx-tab-header,
+.gitcms-mdx-step-title,
+.gitcms-mdx-code-group-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.gitcms-mdx-tab-header {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.75rem 0 0.5rem;
+}
+
+.gitcms-mdx-tab-content {
+  padding-top: 0.75rem;
+}
+
+.gitcms-mdx-steps {
+  border-left: 1px solid #cbd5e1;
+  padding-left: 1rem;
+}
+
+.gitcms-mdx-steps-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.gitcms-mdx-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.gitcms-mdx-step-marker {
+  display: flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.gitcms-mdx-step-body {
+  min-width: 0;
+}
+
+.gitcms-mdx-step-content {
+  margin-top: 0.45rem;
+}
+
+.gitcms-mdx-code-group {
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  background: #111827;
+  color: #f8fafc;
+}
+
+.gitcms-mdx-code-group-tabs {
+  display: grid;
+}
+
+.gitcms-mdx-code-group-item {
+  border-top: 1px solid #374151;
+}
+
+.gitcms-mdx-code-group-item:first-child {
+  border-top: 0;
+}
+
+.gitcms-mdx-code-group-item-header {
+  background: #1f2937;
+  color: #f8fafc;
+  padding: 0.6rem 0.8rem;
+}
+
+.gitcms-mdx-code-preview {
+  border-top: 1px solid #374151;
+}
+
+.gitcms-mdx-code-preview [data-component-part="code-block"] {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.gitcms-mdx-code-editor {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  border: 0;
+  background: transparent;
+  padding: 0.9rem;
+  color: #e5e7eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  outline: none;
 }

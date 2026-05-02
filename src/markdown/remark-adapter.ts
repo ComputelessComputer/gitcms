@@ -1,26 +1,12 @@
 import type { JSONContent } from "@tiptap/react";
-import type { Root } from "mdast";
-import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
-import remarkStringify from "remark-stringify";
-import { unified } from "unified";
 
 import type { MarkdownAdapter } from "./adapter";
 import { jsonToMdast } from "./ast/json-to-mdast";
+import { parseMarkdownAst, stringifyMarkdownAst } from "./ast/markdown-processor";
 import { mdastToJson } from "./ast/mdast-to-json";
 import { extractRawMdx } from "./ast/raw-mdx-extract";
 
 const frontmatterAttr = "gitcmsFrontmatter";
-
-const markdownProcessor = unified().use(remarkParse).use(remarkGfm).use(remarkStringify, {
-  bullet: "-",
-  emphasis: "_",
-  fences: true,
-  listItemIndent: "one",
-  rule: "-",
-  ruleSpaces: false,
-  strong: "*",
-});
 
 /** Default MarkdownAdapter backed by remark/mdast. */
 export const remarkMarkdownAdapter: MarkdownAdapter = {
@@ -51,14 +37,6 @@ export const remarkMarkdownAdapter: MarkdownAdapter = {
     return body ? `${frontmatter}${body}` : frontmatter.trimEnd();
   },
 };
-
-export function parseMarkdownAst(markdown: string): Root {
-  return markdownProcessor.parse(markdown) as Root;
-}
-
-export function stringifyMarkdownAst(tree: Root): string {
-  return markdownProcessor.stringify(tree);
-}
 
 export function splitFrontmatter(markdown: string): { frontmatter: string | null; body: string } {
   const match = markdown.match(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n)*/);
