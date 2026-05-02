@@ -6,7 +6,7 @@
 
 ## Features
 
-- GitHub OAuth sign-in with an env-based admin allowlist.
+- Pluggable auth: GitHub OAuth out of the box, or any OIDC/JWT provider (Clerk, WorkOS, Auth0, Supabase Auth).
 - GitHub-backed content editing for any `owner/repo`.
 - Config-driven collections from `gitcms.config.ts`.
 - Tiptap WYSIWYG markdown editing with frontmatter fields.
@@ -119,7 +119,7 @@ See [docs/COLLECTIONS.md](docs/COLLECTIONS.md) for every field type.
 - Vercel: use `vercel.json`.
 - Netlify: use `netlify.toml`.
 
-See [docs/DEPLOY.md](docs/DEPLOY.md) for platform-specific setup.
+See [docs/DEPLOY.md](docs/DEPLOY.md) for platform-specific setup, [docs/AUTH.md](docs/AUTH.md) for auth providers and members, and [docs/STORAGE.md](docs/STORAGE.md) for media storage backends.
 
 ## Development
 
