@@ -1,6 +1,6 @@
 # gitcms
 
-**gitcms** — a self-hostable, open-source CMS where your content lives in a git repo and your media lives wherever you want. Bring your own GitHub repo. Bring your own storage (Supabase, S3, R2, B2, MinIO, or local disk). Edit markdown with a real WYSIWYG editor. Ships with a one-click deploy to Railway.
+**gitcms** — a self-hostable, open-source CMS where your content lives in a git repo and your media lives wherever you want. Bring your own GitHub repo. Bring your own storage (Supabase, S3, R2, B2, MinIO, GitHub itself, or local disk). Edit markdown with a real WYSIWYG editor. Ships with a one-click deploy to Railway.
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
 
@@ -12,7 +12,7 @@
 - Tiptap WYSIWYG markdown editing with frontmatter fields.
 - Save to working branches, publish through pull requests, or direct commit.
 - Media library with signed browser uploads, folders, move, rename, and delete.
-- Pluggable storage adapters for Supabase and S3-compatible providers.
+- Pluggable storage adapters for Supabase, S3-compatible providers, and GitHub itself.
 - Docker, Railway, Fly.io, Vercel, and Netlify deployment config.
 
 ## Quickstart

@@ -3,7 +3,7 @@ import { z } from "zod";
 const envSchema = z.object({
   GITCMS_APP_URL: z.string().url().default("http://localhost:3000"),
   GITCMS_CONFIG_PATH: z.string().optional(),
-  GITCMS_STORAGE_BACKEND: z.enum(["supabase", "s3", "local"]).default("supabase"),
+  GITCMS_STORAGE_BACKEND: z.enum(["supabase", "s3", "github", "local"]).default("supabase"),
   GITHUB_OAUTH_CLIENT_ID: z.string().optional(),
   GITHUB_OAUTH_CLIENT_SECRET: z.string().optional(),
   GITHUB_OAUTH_CALLBACK_URL: z.string().url().optional(),
@@ -22,6 +22,15 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .default("false")
     .transform((value) => value === "true"),
+  GITCMS_GITHUB_MEDIA_REPO: z.string().optional(),
+  GITCMS_GITHUB_MEDIA_BRANCH: z.string().optional(),
+  GITCMS_GITHUB_MEDIA_PATH: z.string().default("public/uploads"),
+  GITCMS_GITHUB_MEDIA_TOKEN: z.string().optional(),
+  GITCMS_GITHUB_MEDIA_PUBLIC: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((value) => value === "true"),
+  GITCMS_GITHUB_MEDIA_PUBLIC_URL_BASE: z.string().url().optional(),
   LOCAL_STORAGE_ROOT: z.string().default("./LOCAL_STORAGE_ROOT"),
   LOCAL_STORAGE_PUBLIC_URL: z
     .string()

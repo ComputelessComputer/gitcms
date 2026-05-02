@@ -14,6 +14,7 @@ import { Route as MediaIndexRouteImport } from "./routes/media/index"
 import { Route as CollectionsIndexRouteImport } from "./routes/collections/index"
 import { Route as AuthSigninRouteImport } from "./routes/auth/signin"
 import { Route as AuthCallbackRouteImport } from "./routes/auth/callback"
+import { Route as ApiMediaUploadRouteImport } from "./routes/api/media/upload"
 import { Route as ApiMediaDownloadRouteImport } from "./routes/api/media/download"
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: "/auth/callback",
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMediaUploadRoute = ApiMediaUploadRouteImport.update({
+  id: "/api/media/upload",
+  path: "/api/media/upload",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiMediaDownloadRoute = ApiMediaDownloadRouteImport.update({
   id: "/api/media/download",
   path: "/api/media/download",
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   "/collections/": typeof CollectionsIndexRoute
   "/media/": typeof MediaIndexRoute
   "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   "/collections": typeof CollectionsIndexRoute
   "/media": typeof MediaIndexRoute
   "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   "/collections/": typeof CollectionsIndexRoute
   "/media/": typeof MediaIndexRoute
   "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | "/collections/"
     | "/media/"
     | "/api/media/download"
+    | "/api/media/upload"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | "/collections"
     | "/media"
     | "/api/media/download"
+    | "/api/media/upload"
   id:
     | "__root__"
     | "/"
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | "/collections/"
     | "/media/"
     | "/api/media/download"
+    | "/api/media/upload"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   MediaIndexRoute: typeof MediaIndexRoute
   ApiMediaDownloadRoute: typeof ApiMediaDownloadRoute
+  ApiMediaUploadRoute: typeof ApiMediaUploadRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -145,6 +158,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/api/media/upload": {
+      id: "/api/media/upload"
+      path: "/api/media/upload"
+      fullPath: "/api/media/upload"
+      preLoaderRoute: typeof ApiMediaUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/api/media/download": {
       id: "/api/media/download"
       path: "/api/media/download"
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsIndexRoute: CollectionsIndexRoute,
   MediaIndexRoute: MediaIndexRoute,
   ApiMediaDownloadRoute: ApiMediaDownloadRoute,
+  ApiMediaUploadRoute: ApiMediaUploadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

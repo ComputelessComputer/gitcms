@@ -1,5 +1,6 @@
 import { getEnv } from "../env";
 import { GitcmsConfigError } from "../lib/errors";
+import { GitHubStorageAdapter } from "./github";
 import { LocalStorageAdapter } from "./local";
 import { S3StorageAdapter } from "./s3";
 import { SupabaseStorageAdapter } from "./supabase";
@@ -33,6 +34,22 @@ export async function createStorageAdapter(): Promise<StorageAdapter> {
       ...(env.S3_ENDPOINT ? { endpoint: env.S3_ENDPOINT } : {}),
       ...(env.S3_PUBLIC_URL_BASE ? { publicUrlBase: env.S3_PUBLIC_URL_BASE } : {}),
       forcePathStyle: env.S3_FORCE_PATH_STYLE,
+    });
+  } else if (env.GITCMS_STORAGE_BACKEND === "github") {
+    if (!env.GITCMS_GITHUB_MEDIA_REPO || !env.GITCMS_GITHUB_MEDIA_TOKEN) {
+      throw new GitcmsConfigError(
+        "GitHub storage requires GITCMS_GITHUB_MEDIA_REPO and GITCMS_GITHUB_MEDIA_TOKEN.",
+      );
+    }
+    adapter = new GitHubStorageAdapter({
+      repo: env.GITCMS_GITHUB_MEDIA_REPO,
+      ...(env.GITCMS_GITHUB_MEDIA_BRANCH ? { branch: env.GITCMS_GITHUB_MEDIA_BRANCH } : {}),
+      mediaPath: env.GITCMS_GITHUB_MEDIA_PATH,
+      token: env.GITCMS_GITHUB_MEDIA_TOKEN,
+      isPublic: env.GITCMS_GITHUB_MEDIA_PUBLIC,
+      ...(env.GITCMS_GITHUB_MEDIA_PUBLIC_URL_BASE
+        ? { publicUrlBase: env.GITCMS_GITHUB_MEDIA_PUBLIC_URL_BASE }
+        : {}),
     });
   } else {
     adapter = new LocalStorageAdapter({
