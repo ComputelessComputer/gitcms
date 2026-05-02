@@ -98,3 +98,56 @@ select {
   max-width: 100%;
   border-radius: 6px;
 }
+
+.gitcms-raw-mdx {
+  position: relative;
+  display: block;
+  margin: 0.9rem 0;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.gitcms-raw-mdx-text {
+  display: inline-flex;
+  max-width: 100%;
+  margin: 0 0.15rem;
+  vertical-align: middle;
+}
+
+.gitcms-raw-mdx-badge {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.55rem;
+  border-radius: 4px;
+  background: #334155;
+  padding: 0.1rem 0.4rem;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.gitcms-raw-mdx-editor {
+  display: block;
+  width: 100%;
+  min-width: 12rem;
+  resize: vertical;
+  border: 0;
+  background: transparent;
+  padding: 1rem;
+  padding-right: 5.5rem;
+  color: #0f172a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  outline: none;
+}
+
+.gitcms-raw-mdx-text .gitcms-raw-mdx-editor {
+  min-height: 2.4rem;
+  resize: horizontal;
+  white-space: nowrap;
+}

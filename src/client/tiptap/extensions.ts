@@ -7,6 +7,8 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import StarterKit from "@tiptap/starter-kit";
 
+import { RawMdxNode } from "../../markdown/raw-mdx-node";
+
 /** Shared Tiptap extension set for gitcms markdown editing. */
 export function createGitcmsExtensions(placeholder = "Write markdown content...") {
   return [
@@ -31,6 +33,7 @@ export function createGitcmsExtensions(placeholder = "Write markdown content..."
     TableRow,
     TableHeader,
     TableCell,
+    RawMdxNode,
     Placeholder.configure({ placeholder }),
   ];
 }

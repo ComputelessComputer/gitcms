@@ -8,6 +8,7 @@ import { unified } from "unified";
 import type { MarkdownAdapter } from "./adapter";
 import { jsonToMdast } from "./ast/json-to-mdast";
 import { mdastToJson } from "./ast/mdast-to-json";
+import { extractRawMdx } from "./ast/raw-mdx-extract";
 
 const frontmatterAttr = "gitcmsFrontmatter";
 
@@ -25,7 +26,10 @@ const markdownProcessor = unified().use(remarkParse).use(remarkGfm).use(remarkSt
 export const remarkMarkdownAdapter: MarkdownAdapter = {
   parse(markdown) {
     const { frontmatter, body } = splitFrontmatter(markdown);
-    const json = mdastToJson(parseMarkdownAst(body));
+    const extracted = extractRawMdx(body);
+    const json = mdastToJson(parseMarkdownAst(extracted.markdown), {
+      rawMdxById: extracted.rawMdxById,
+    });
     if (!frontmatter) {
       return json;
     }
