@@ -1,9 +1,8 @@
 # gitcms
 
-**gitcms** — a self-hostable, open-source CMS where your content lives in a git repo and your media lives wherever you want. Bring your own GitHub repo. Bring your own storage (Supabase, S3, R2, B2, MinIO, or local disk). Edit markdown with a real WYSIWYG editor. Ships with a one-click deploy to Railway and Fly.io.
+**gitcms** — a self-hostable, open-source CMS where your content lives in a git repo and your media lives wherever you want. Bring your own GitHub repo. Bring your own storage (Supabase, S3, R2, B2, MinIO, or local disk). Edit markdown with a real WYSIWYG editor. Ships with a one-click deploy to Railway.
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
-[![Deploy on Fly.io](https://fly.io/static/images/launch/button.svg)](https://fly.io/launch)
 
 ## Features
 
