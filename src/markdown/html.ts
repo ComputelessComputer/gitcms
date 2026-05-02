@@ -8,7 +8,8 @@ import type {
   TableRow,
 } from "mdast";
 
-import { parseMarkdownAst, splitFrontmatter } from "./remark-adapter";
+import { parseMarkdownAst } from "./ast/markdown-processor";
+import { splitFrontmatter } from "./remark-adapter";
 
 /** Renders trusted operator-authored markdown into HTML for read-only panels. */
 export function markdownToHtml(markdown: string): string {

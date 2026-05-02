@@ -8,8 +8,17 @@ import { describe, expect, it } from "vitest";
 import { remarkMarkdownAdapter } from "../../src/markdown";
 
 const fixturesDir = fileURLToPath(new URL("../fixtures/markdown", import.meta.url));
+const registeredComponentFixtures = new Set([
+  "with-accordion.mdx",
+  "with-callout.mdx",
+  "with-card.mdx",
+  "with-code-group.mdx",
+  "with-steps.mdx",
+  "with-tabs.mdx",
+]);
 const fixtureNames = readdirSync(fixturesDir)
   .filter((name) => name.endsWith(".mdx"))
+  .filter((name) => !registeredComponentFixtures.has(name))
   .sort();
 
 describe("RawMdx fallback nodes", () => {

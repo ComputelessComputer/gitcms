@@ -5,7 +5,14 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".output", "dist", "node_modules", "src/routeTree.gen.ts", "pnpm-lock.yaml"],
+    ignores: [
+      ".output",
+      "dist",
+      "node_modules",
+      "src/routeTree.gen.ts",
+      "pnpm-lock.yaml",
+      "src/vendor/mintlify-components/**",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.strict,

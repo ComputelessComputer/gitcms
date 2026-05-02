@@ -10,3 +10,6 @@ node_modules/
 
 # Lockfile is owned by pnpm
 pnpm-lock.yaml
+
+# Vendored third-party source is preserved for clean re-syncs.
+src/vendor/mintlify-components/

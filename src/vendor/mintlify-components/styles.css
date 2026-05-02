@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "./code.css";
+
+@plugin "@tailwindcss/typography";
+@plugin "./plugins/bg-grid.ts";
+@plugin "./plugins/scrollbar.ts";
+
+@source "./**/*.{js,jsx,ts,tsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: rgb(22, 101, 52);
+  --color-primary-light: rgb(240, 249, 244);
+  --color-primary-dark: rgb(45, 90, 61);
+  --color-tooltip-foreground: rgb(255, 255, 255);
+  --color-background-dark: rgb(14, 14, 15);
+}
+
+@layer base {
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@utility border-standard {
+  border-width: 1px;
+  border-color: rgb(229 231 235 / 70%);
+
+  &:is(.dark *) {
+    border-color: rgb(255 255 255 / 10%);
+  }
+}
+
+@utility overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}

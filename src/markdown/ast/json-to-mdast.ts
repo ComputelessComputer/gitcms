@@ -16,20 +16,38 @@ import type {
   TableRow,
 } from "mdast";
 
+import {
+  defaultComponentRegistry,
+  type ComponentRegistry,
+  type ComponentRegistryContext,
+} from "../component-registry";
+import { stringifyMarkdownAst } from "./markdown-processor";
 import { getRawMdxAttrs } from "./mdx-jsx-utils";
 
 type JsonAttrs = NonNullable<JSONContent["attrs"]>;
 type JsonMark = NonNullable<JSONContent["marks"]>[number];
 
+interface JsonToMdastOptions {
+  componentRegistry?: ComponentRegistry;
+}
+
 /** Converts Tiptap JSONContent into a remark/mdast tree. */
-export function jsonToMdast(json: JSONContent): Root {
+export function jsonToMdast(json: JSONContent, options: JsonToMdastOptions = {}): Root {
   return {
     type: "root",
-    children: jsonChildren(json).flatMap((child) => jsonBlockToMdast(child)),
+    children: jsonChildren(json).flatMap((child) => jsonBlockToMdast(child, options)),
   };
 }
 
-function jsonBlockToMdast(node: JSONContent): RootContent[] {
+function jsonBlockToMdast(node: JSONContent, options: JsonToMdastOptions): RootContent[] {
+  const registry = options.componentRegistry ?? defaultComponentRegistry;
+  for (const entry of registry.entries()) {
+    const mdast = entry.jsonToMdast(node, createRegistryContext(options));
+    if (mdast) {
+      return [mdast];
+    }
+  }
+
   const rawMdx = getRawMdxAttrs(node);
   if (rawMdx) {
     return rawMdx.kind === "flow"
@@ -39,7 +57,7 @@ function jsonBlockToMdast(node: JSONContent): RootContent[] {
 
   switch (node.type) {
     case "doc":
-      return jsonChildren(node).flatMap((child) => jsonBlockToMdast(child));
+      return jsonChildren(node).flatMap((child) => jsonBlockToMdast(child, options));
     case "paragraph":
       return [{ type: "paragraph", children: jsonInlineToMdast(jsonChildren(node)) }];
     case "heading":
@@ -55,15 +73,15 @@ function jsonBlockToMdast(node: JSONContent): RootContent[] {
         {
           type: "blockquote",
           children: jsonChildren(node).flatMap((child) =>
-            jsonBlockToMdast(child),
+            jsonBlockToMdast(child, options),
           ) as BlockContent[],
         },
       ];
     case "bulletList":
     case "orderedList":
-      return [listToMdast(node)];
+      return [listToMdast(node, options)];
     case "listItem":
-      return [listItemToMdast(node)];
+      return [listItemToMdast(node, options)];
     case "codeBlock":
       return [codeBlockToMdast(node)];
     case "horizontalRule":
@@ -81,7 +99,7 @@ function jsonBlockToMdast(node: JSONContent): RootContent[] {
   }
 }
 
-function listToMdast(node: JSONContent): List {
+function listToMdast(node: JSONContent, options: JsonToMdastOptions): List {
   const ordered = node.type === "orderedList";
   const start = numberAttr(node.attrs, "start");
   return {
@@ -89,18 +107,20 @@ function listToMdast(node: JSONContent): List {
     ordered,
     start: ordered && start && start !== 1 ? start : undefined,
     spread: false,
-    children: jsonChildren(node).map((child) => listItemToMdast(child)),
+    children: jsonChildren(node).map((child) => listItemToMdast(child, options)),
   };
 }
 
-function listItemToMdast(node: JSONContent): ListItem {
+function listItemToMdast(node: JSONContent, options: JsonToMdastOptions): ListItem {
   const checked = booleanAttr(node.attrs, "checked");
   const spread = booleanAttr(node.attrs, "spread");
   return {
     type: "listItem",
     checked,
     spread: spread ?? false,
-    children: jsonChildren(node).flatMap((child) => jsonBlockToMdast(child)) as BlockContent[],
+    children: jsonChildren(node).flatMap((child) =>
+      jsonBlockToMdast(child, options),
+    ) as BlockContent[],
   };
 }
 
@@ -143,6 +163,25 @@ function tableCellToMdast(node: JSONContent): TableCell {
 
 function jsonInlineToMdast(nodes: JSONContent[]): PhrasingContent[] {
   return renderMarkedInline(nodes, 0);
+}
+
+function createRegistryContext(options: JsonToMdastOptions): ComponentRegistryContext {
+  return {
+    markdownToJson() {
+      return [];
+    },
+    jsonToMarkdown(content) {
+      const children = content ?? [];
+      if (children.length === 0) {
+        return "";
+      }
+
+      return stringifyMarkdownAst({
+        type: "root",
+        children: children.flatMap((child) => jsonBlockToMdast(child, options)),
+      }).trimEnd();
+    },
+  };
 }
 
 const markOrder = ["link", "bold", "italic", "strike"] as const;

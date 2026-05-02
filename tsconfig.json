@@ -15,6 +15,7 @@
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "@/*": ["./src/vendor/mintlify-components/*"],
       "~/*": ["./src/*"],
       "gitcms/config": ["./src/config.ts"]
     },
@@ -32,5 +33,6 @@
     "eslint.config.js",
     "vitest.config.ts",
     "tailwind.config.ts"
-  ]
+  ],
+  "exclude": ["src/vendor/mintlify-components"]
 }
