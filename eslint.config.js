@@ -48,4 +48,19 @@ export default tseslint.config(
       "react-refresh/only-export-components": "off",
     },
   },
+  {
+    // Node-only build/bootstrap scripts. They run with `node scripts/*.mjs`
+    // and use globals like `process` / `console` / Node async iteration —
+    // none of which the default eslint env knows about.
+    files: ["scripts/**/*.mjs", "scripts/**/*.js"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        console: "readonly",
+        Buffer: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+      },
+    },
+  },
 );
