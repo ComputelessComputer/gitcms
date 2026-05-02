@@ -1,0 +1,15 @@
+# Cursor rules
+
+This project's full agent guide lives in `AGENTS.md` at the repo root. Read that file before making changes.
+
+Quick rules:
+
+- Package manager: pnpm 10.33+. Never npm or yarn.
+- No `useEffect()`. The eslint config bans it. Prefer derived state, event handlers, React Query, or `useMountEffect`.
+- No `any`. No floating promises. Both are eslint errors that fail CI.
+- Server-side mutations go through `requireAdminServerFn()` — never read cookies directly.
+- Env vars: schema in `src/env.ts`, value via `getEnv()`. Never use `process.env` outside `src/env.ts`.
+- Tests mirror `src/` paths. Vitest, not jest.
+- Three orthogonal primitives: `AuthAdapter` (who's signed in), `MembersProvider` (who's allowed), `GitHubTokenSource` (which token writes commits). Don't conflate them.
+
+For full architecture, conventions, landmines, and "how to add a new X" recipes, read `AGENTS.md`.

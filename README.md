@@ -15,6 +15,15 @@
 - Pluggable storage adapters for Supabase, S3-compatible providers, and GitHub itself.
 - Docker, Railway, Fly.io, Vercel, and Netlify deployment config.
 
+## For AI agents
+
+gitcms is built to be agent-friendly on both sides:
+
+- Contributing to gitcms? Read [`AGENTS.md`](AGENTS.md).
+- Using gitcms as a CMS in your project (drafting content, opening PRs)? Read [`docs/AGENTS-USING-GITCMS.md`](docs/AGENTS-USING-GITCMS.md).
+
+Cursor, Copilot, and Claude Code pick up `AGENTS.md` automatically via the standard pointer files (`.cursorrules`, `.github/copilot-instructions.md`, `CLAUDE.md`).
+
 ## Quickstart
 
 ```bash
