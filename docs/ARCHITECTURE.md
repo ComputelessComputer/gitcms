@@ -16,12 +16,12 @@ The GitHub token is never stored in a database. It exists only inside the sealed
 
 `src/github/*` treats GitHub as the CMS database:
 
-| Module | Responsibility |
-| --- | --- |
-| `client.ts` | Octokit factory and `owner/repo` parsing |
-| `content-paths.ts` | repo path and branch naming helpers |
-| `branches.ts` | branch and pull request helpers |
-| `content.ts` | list, read, save, rename, delete, publish |
+| Module             | Responsibility                            |
+| ------------------ | ----------------------------------------- |
+| `client.ts`        | Octokit factory and `owner/repo` parsing  |
+| `content-paths.ts` | repo path and branch naming helpers       |
+| `branches.ts`      | branch and pull request helpers           |
+| `content.ts`       | list, read, save, rename, delete, publish |
 
 Markdown files are serialized with YAML frontmatter by `src/lib/markdown.ts`.
 

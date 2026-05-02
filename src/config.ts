@@ -91,7 +91,9 @@ export function parseGitcmsConfig(config: unknown): GitcmsConfig {
 }
 
 /** Loads gitcms.config.ts or the path in GITCMS_CONFIG_PATH at runtime. */
-export async function loadGitcmsConfig(configPath = process.env.GITCMS_CONFIG_PATH): Promise<GitcmsConfig> {
+export async function loadGitcmsConfig(
+  configPath = process.env.GITCMS_CONFIG_PATH,
+): Promise<GitcmsConfig> {
   const resolvedPath = path.resolve(process.cwd(), configPath || "gitcms.config.ts");
   const jiti = createJiti(pathToFileURL(import.meta.url).href);
   const loaded = await jiti.import<unknown>(resolvedPath, { default: true });

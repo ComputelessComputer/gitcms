@@ -45,9 +45,7 @@ const envSchema = z.object({
     .transform((value) => value === "true"),
   GITCMS_GITHUB_MEDIA_PUBLIC_URL_BASE: z.string().url().optional(),
   LOCAL_STORAGE_ROOT: z.string().default("./LOCAL_STORAGE_ROOT"),
-  LOCAL_STORAGE_PUBLIC_URL: z
-    .string()
-    .default("http://localhost:3000/media"),
+  LOCAL_STORAGE_PUBLIC_URL: z.string().default("http://localhost:3000/media"),
 });
 
 export type RuntimeEnv = z.infer<typeof envSchema>;

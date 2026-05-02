@@ -16,7 +16,7 @@ describe("markdown frontmatter", () => {
       body: "# Hello\n\nBody",
     });
     expect(serialized).toContain("draft: false");
-    expect(serialized).toContain('title: Test');
+    expect(serialized).toContain("title: Test");
     expect(serialized).toContain("# Hello");
   });
 

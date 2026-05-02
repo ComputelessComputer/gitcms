@@ -58,18 +58,18 @@ describe("EnvMembersProvider.resolve", () => {
 
   it("falls back to email when login does not match (JWT mode)", async () => {
     const provider = new EnvMembersProvider("john@fastrepl.com:admin");
-    expect(
-      await provider.resolve(
-        identity({ login: null, email: "JOHN@fastrepl.com" }),
-      ),
-    ).toEqual({ identifier: "john@fastrepl.com", role: "admin" });
+    expect(await provider.resolve(identity({ login: null, email: "JOHN@fastrepl.com" }))).toEqual({
+      identifier: "john@fastrepl.com",
+      role: "admin",
+    });
   });
 
   it("falls back to subject when login and email do not match", async () => {
     const provider = new EnvMembersProvider("jwt:user_abc:admin");
-    expect(
-      await provider.resolve(identity({ subject: "jwt:user_abc", login: null })),
-    ).toEqual({ identifier: "jwt:user_abc", role: "admin" });
+    expect(await provider.resolve(identity({ subject: "jwt:user_abc", login: null }))).toEqual({
+      identifier: "jwt:user_abc",
+      role: "admin",
+    });
   });
 
   it("returns null when the user is not in the allowlist", async () => {

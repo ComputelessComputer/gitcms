@@ -11,7 +11,10 @@ export function normalizeRepoPath(value: string): string {
 }
 
 /** Builds the repository path for a collection root. */
-export function collectionRepoPath(content: ContentConfig, collection: CollectionDescriptor): string {
+export function collectionRepoPath(
+  content: ContentConfig,
+  collection: CollectionDescriptor,
+): string {
   return normalizeRepoPath([content.path, collection.path].filter(Boolean).join("/"));
 }
 

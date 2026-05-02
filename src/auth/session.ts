@@ -43,8 +43,14 @@ export function toPublicAdminUser(session: AdminSession): PublicAdminUser {
 /** Creates and stores a new OAuth state cookie. */
 export async function createOauthState(): Promise<string> {
   const state = randomBytes(24).toString("hex");
-  const sealed = await sealData({ state }, { password: getSessionSecret(), ttl: OAUTH_STATE_TTL_SECONDS });
-  setResponseHeader("Set-Cookie", cookieHeader(OAUTH_STATE_COOKIE, sealed, OAUTH_STATE_TTL_SECONDS));
+  const sealed = await sealData(
+    { state },
+    { password: getSessionSecret(), ttl: OAUTH_STATE_TTL_SECONDS },
+  );
+  setResponseHeader(
+    "Set-Cookie",
+    cookieHeader(OAUTH_STATE_COOKIE, sealed, OAUTH_STATE_TTL_SECONDS),
+  );
   return state;
 }
 
@@ -78,7 +84,9 @@ export async function readAdminSession(): Promise<AdminSession | null> {
 }
 
 /** Reads and decrypts an admin session from an arbitrary Cookie header. */
-export async function readAdminSessionFromCookieHeader(cookieHeaderValue: string): Promise<AdminSession | null> {
+export async function readAdminSessionFromCookieHeader(
+  cookieHeaderValue: string,
+): Promise<AdminSession | null> {
   const cookieValue = parse(cookieHeaderValue)[SESSION_COOKIE];
   if (!cookieValue) return null;
   try {

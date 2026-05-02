@@ -103,7 +103,9 @@ export function MediaPage(): React.ReactElement {
   );
 }
 
-function buildFolderTree(items: Array<{ path: string; folder: string; mimeType: string }>): string[] {
+function buildFolderTree(
+  items: Array<{ path: string; folder: string; mimeType: string }>,
+): string[] {
   const folders = new Set<string>();
   for (const item of items) {
     if (item.mimeType === "application/x-directory") {

@@ -40,7 +40,9 @@ export function Header({ user }: HeaderProps): React.ReactElement {
       </div>
       <div className="flex items-center gap-3">
         {user.avatarUrl && <img src={user.avatarUrl} alt="" className="size-8 rounded-full" />}
-        <span className="hidden text-sm text-slate-600 sm:inline">{user.login ?? user.email ?? user.subject}</span>
+        <span className="hidden text-sm text-slate-600 sm:inline">
+          {user.login ?? user.email ?? user.subject}
+        </span>
         <Button size="icon" variant="ghost" aria-label="Sign out" onClick={() => signOut.mutate()}>
           <LogOutIcon className="size-4" />
         </Button>

@@ -5,13 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [
-      ".output",
-      "dist",
-      "node_modules",
-      "src/routeTree.gen.ts",
-      "pnpm-lock.yaml"
-    ],
+    ignores: [".output", "dist", "node_modules", "src/routeTree.gen.ts", "pnpm-lock.yaml"],
   },
   js.configs.recommended,
   ...tseslint.configs.strict,
@@ -31,19 +25,27 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-floating-promises": "error",
-      "no-restricted-imports": [
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+      // Discourage useEffect at the call site (not the import — namespace
+      // imports like `import * as React from "react"` would be false positives).
+      // Prefer derived state, event handlers, React Query, or useMountEffect.
+      "no-restricted-syntax": [
         "error",
         {
-          "paths": [
-            {
-              "name": "react",
-              "importNames": ["useEffect"],
-              "message": "Use derived state, event handlers, React Query, or useMountEffect instead."
-            }
-          ]
-        }
+          selector: "CallExpression[callee.name='useEffect']",
+          message:
+            "Avoid useEffect — prefer derived state, event handlers, React Query, or useMountEffect. If you really need it, add `// eslint-disable-next-line no-restricted-syntax` with a comment explaining why.",
+        },
+        {
+          selector: "CallExpression[callee.object.name='React'][callee.property.name='useEffect']",
+          message:
+            "Avoid React.useEffect — prefer derived state, event handlers, React Query, or useMountEffect.",
+        },
       ],
-      "react-refresh/only-export-components": "off"
-    }
-  }
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

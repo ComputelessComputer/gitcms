@@ -43,7 +43,11 @@ export function GitcmsEditor({
   });
 
   if (!editor) {
-    return <div className="rounded-md border border-slate-200 bg-white p-6 text-sm">Loading editor...</div>;
+    return (
+      <div className="rounded-md border border-slate-200 bg-white p-6 text-sm">
+        Loading editor...
+      </div>
+    );
   }
 
   return (
@@ -130,7 +134,11 @@ export function GitcmsEditor({
           aria-label="Image"
           onClick={() =>
             onOpenMediaPicker((url, alt) => {
-              editor.chain().focus().setImage({ src: url, alt: alt ?? "" }).run();
+              editor
+                .chain()
+                .focus()
+                .setImage({ src: url, alt: alt ?? "" })
+                .run();
             })
           }
         >
@@ -140,7 +148,9 @@ export function GitcmsEditor({
           size="icon"
           variant="ghost"
           aria-label="Table"
-          onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+          onClick={() =>
+            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+          }
         >
           <TableIcon className="size-4" />
         </Button>

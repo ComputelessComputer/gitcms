@@ -108,9 +108,7 @@ export class GitHubStorageAdapter implements StorageAdapter {
         path: repoPath,
         ref: this.branch,
       });
-      entries = Array.isArray(response.data)
-        ? (response.data as unknown as GitHubFile[])
-        : [];
+      entries = Array.isArray(response.data) ? (response.data as unknown as GitHubFile[]) : [];
     } catch (error) {
       if (isStatus(error, 404)) return [];
       throw new GitcmsStorageError(`Failed to list ${repoPath}: ${(error as Error).message}`);
@@ -198,7 +196,9 @@ export class GitHubStorageAdapter implements StorageAdapter {
           lastError = error;
           continue;
         }
-        throw new GitcmsStorageError(`Failed to upload ${libraryPath}: ${(error as Error).message}`);
+        throw new GitcmsStorageError(
+          `Failed to upload ${libraryPath}: ${(error as Error).message}`,
+        );
       }
     }
     throw new GitcmsStorageError(
@@ -277,9 +277,7 @@ export class GitHubStorageAdapter implements StorageAdapter {
 
   /** Streams a file's bytes. For private repos this is the only readable surface;
    *  for public repos the browser typically hits raw.githubusercontent.com directly. */
-  async stream(
-    path: string,
-  ): Promise<{ stream: Readable; contentType: string; size: number }> {
+  async stream(path: string): Promise<{ stream: Readable; contentType: string; size: number }> {
     const normalized = normalizeMediaPath(path);
     const repoPath = this.repoPath(normalized);
     const blob = await this.fetchBlob(repoPath);
@@ -380,7 +378,10 @@ export class GitHubStorageAdapter implements StorageAdapter {
 
 function isStatus(error: unknown, status: number): boolean {
   return Boolean(
-    error && typeof error === "object" && "status" in error && (error as { status: number }).status === status,
+    error &&
+    typeof error === "object" &&
+    "status" in error &&
+    (error as { status: number }).status === status,
   );
 }
 

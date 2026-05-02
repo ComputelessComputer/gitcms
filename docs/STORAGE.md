@@ -4,12 +4,12 @@ gitcms stores media through `StorageAdapter` in `src/storage/types.ts`. The UI n
 
 ## Built-in Backends
 
-| Backend | Env value | Use case |
-| --- | --- | --- |
-| Supabase Storage | `supabase` | Simple hosted bucket with public URLs |
-| S3-compatible | `s3` | AWS S3, Cloudflare R2, Backblaze B2, MinIO, DigitalOcean Spaces — best for production |
-| GitHub repo | `github` | Personal blogs and docs sites — small media, no extra service, fully versioned |
-| Local filesystem | `local` | Development reads/downloads; direct browser upload is intentionally disabled in v0.0.1 |
+| Backend          | Env value  | Use case                                                                               |
+| ---------------- | ---------- | -------------------------------------------------------------------------------------- |
+| Supabase Storage | `supabase` | Simple hosted bucket with public URLs                                                  |
+| S3-compatible    | `s3`       | AWS S3, Cloudflare R2, Backblaze B2, MinIO, DigitalOcean Spaces — best for production  |
+| GitHub repo      | `github`   | Personal blogs and docs sites — small media, no extra service, fully versioned         |
+| Local filesystem | `local`    | Development reads/downloads; direct browser upload is intentionally disabled in v0.0.1 |
 
 ## Supabase
 

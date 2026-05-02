@@ -46,7 +46,9 @@ export class SupabaseStorageAdapter implements StorageAdapter {
   async init(): Promise<void> {
     const { data, error } = await this.client.storage.getBucket(this.bucketName);
     if (error || !data) {
-      throw new GitcmsStorageError(error?.message ?? `Supabase bucket not found: ${this.bucketName}`);
+      throw new GitcmsStorageError(
+        error?.message ?? `Supabase bucket not found: ${this.bucketName}`,
+      );
     }
   }
 
@@ -149,15 +151,19 @@ export class SupabaseStorageAdapter implements StorageAdapter {
 
   /** Returns Supabase's public URL for an object. */
   getPublicUrl(path: string): string {
-    const { data } = this.client.storage.from(this.bucketName).getPublicUrl(normalizeMediaPath(path));
+    const { data } = this.client.storage
+      .from(this.bucketName)
+      .getPublicUrl(normalizeMediaPath(path));
     return data.publicUrl;
   }
 
   private async listOneFolder(folder: string): Promise<MediaItem[]> {
-    const { data, error } = await this.client.storage.from(this.bucketName).list(folder || undefined, {
-      limit: 1000,
-      sortBy: { column: "name", order: "asc" },
-    });
+    const { data, error } = await this.client.storage
+      .from(this.bucketName)
+      .list(folder || undefined, {
+        limit: 1000,
+        sortBy: { column: "name", order: "asc" },
+      });
 
     if (error) {
       throw new GitcmsStorageError(error.message);
@@ -175,7 +181,9 @@ export class SupabaseStorageAdapter implements StorageAdapter {
     return {
       path: itemPath,
       ...splitMediaPath(itemPath),
-      mimeType: isFolder ? "application/x-directory" : (entry.metadata?.mimetype ?? mimeFromPath(itemPath)),
+      mimeType: isFolder
+        ? "application/x-directory"
+        : (entry.metadata?.mimetype ?? mimeFromPath(itemPath)),
       size: entry.metadata?.size ?? 0,
       publicUrl: isFolder ? "" : this.getPublicUrl(itemPath),
       createdAt: entry.created_at ?? now,
@@ -186,15 +194,17 @@ export class SupabaseStorageAdapter implements StorageAdapter {
   private async describePath(path: string): Promise<MediaItem> {
     const { folder, name } = splitMediaPath(path);
     const items = await this.listOneFolder(folder);
-    return items.find((item) => item.name === name) ?? {
-      path,
-      name,
-      folder,
-      mimeType: mimeFromPath(path),
-      size: 0,
-      publicUrl: this.getPublicUrl(path),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    return (
+      items.find((item) => item.name === name) ?? {
+        path,
+        name,
+        folder,
+        mimeType: mimeFromPath(path),
+        size: 0,
+        publicUrl: this.getPublicUrl(path),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
+    );
   }
 }

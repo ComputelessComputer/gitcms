@@ -82,7 +82,9 @@ export function FrontmatterPanel({
                 onChange={(event) =>
                   update(
                     key,
-                    field.type === "number" ? Number(event.currentTarget.value) : event.currentTarget.value,
+                    field.type === "number"
+                      ? Number(event.currentTarget.value)
+                      : event.currentTarget.value,
                   )
                 }
               />

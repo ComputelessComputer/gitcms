@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { AuthIdentity } from "../../src/auth/adapter";
-import {
-  OAuthTokenSource,
-  ServiceTokenSource,
-} from "../../src/auth/github-token-source";
+import { OAuthTokenSource, ServiceTokenSource } from "../../src/auth/github-token-source";
 
 const baseIdentity: AuthIdentity = {
   subject: "github:johnjeong",
@@ -58,8 +55,6 @@ describe("ServiceTokenSource", () => {
   });
 
   it("throws at construction when no token is provided and env is unset", () => {
-    expect(() => new ServiceTokenSource("")).toThrow(
-      /requires GITCMS_GITHUB_SERVICE_TOKEN/,
-    );
+    expect(() => new ServiceTokenSource("")).toThrow(/requires GITCMS_GITHUB_SERVICE_TOKEN/);
   });
 });

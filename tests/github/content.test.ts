@@ -22,8 +22,11 @@ const config: GitcmsConfig = {
 };
 
 describe("GitHub content path helpers", () => {
+  const [blogCollection] = config.collections;
+  if (!blogCollection) throw new Error("test fixture: missing blog collection");
+
   it("routes collection files under the configured content root", () => {
-    expect(contentFileRepoPath(config.content, config.collections[0]!, "Hello World")).toBe(
+    expect(contentFileRepoPath(config.content, blogCollection, "Hello World")).toBe(
       "content/blog/hello-world.md",
     );
   });

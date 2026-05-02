@@ -68,5 +68,7 @@ export class GitcmsGitHubError extends GitcmsError {
 /** Returns true when a serialized error should redirect to sign-in. */
 export function isAdminAuthError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
-  return error.name === GITCMS_ERROR_NAMES.unauthorized || error.name === GITCMS_ERROR_NAMES.githubReauth;
+  return (
+    error.name === GITCMS_ERROR_NAMES.unauthorized || error.name === GITCMS_ERROR_NAMES.githubReauth
+  );
 }

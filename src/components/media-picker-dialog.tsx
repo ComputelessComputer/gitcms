@@ -37,7 +37,11 @@ export function MediaPickerDialog({
               onClick={() => onSelect(item.publicUrl, item.name)}
               className="overflow-hidden rounded-md border border-slate-200 bg-white text-left hover:border-teal-600"
             >
-              <img src={item.publicUrl} alt={item.name} className="aspect-square w-full object-cover" />
+              <img
+                src={item.publicUrl}
+                alt={item.name}
+                className="aspect-square w-full object-cover"
+              />
               <span className="block truncate p-2 text-xs text-slate-700">{item.name}</span>
             </button>
           ))}

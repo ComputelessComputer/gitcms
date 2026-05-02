@@ -189,7 +189,9 @@ export class S3StorageAdapter implements StorageAdapter {
   /** Streams an object from S3-compatible storage. */
   async stream(path: string): Promise<{ stream: Readable; contentType: string; size: number }> {
     const key = normalizeMediaPath(path);
-    const response = await this.client.send(new GetObjectCommand({ Bucket: this.bucket, Key: key }));
+    const response = await this.client.send(
+      new GetObjectCommand({ Bucket: this.bucket, Key: key }),
+    );
     if (!response.Body) {
       throw new GitcmsStorageError(`S3 object has no body: ${key}`);
     }

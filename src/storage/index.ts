@@ -15,7 +15,9 @@ export async function createStorageAdapter(): Promise<StorageAdapter> {
 
   if (env.GITCMS_STORAGE_BACKEND === "supabase") {
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
-      throw new GitcmsConfigError("Supabase storage requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.");
+      throw new GitcmsConfigError(
+        "Supabase storage requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+      );
     }
     adapter = new SupabaseStorageAdapter({
       url: env.SUPABASE_URL,
@@ -24,7 +26,9 @@ export async function createStorageAdapter(): Promise<StorageAdapter> {
     });
   } else if (env.GITCMS_STORAGE_BACKEND === "s3") {
     if (!env.S3_BUCKET || !env.S3_ACCESS_KEY_ID || !env.S3_SECRET_ACCESS_KEY) {
-      throw new GitcmsConfigError("S3 storage requires S3_BUCKET, S3_ACCESS_KEY_ID, and S3_SECRET_ACCESS_KEY.");
+      throw new GitcmsConfigError(
+        "S3 storage requires S3_BUCKET, S3_ACCESS_KEY_ID, and S3_SECRET_ACCESS_KEY.",
+      );
     }
     adapter = new S3StorageAdapter({
       region: env.S3_REGION,

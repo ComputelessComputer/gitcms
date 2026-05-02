@@ -72,11 +72,11 @@ Use `S3_FORCE_PATH_STYLE=true` for R2, B2, MinIO, and similar providers.
 
 ## Storage Adapter Table
 
-| Adapter | Status | Notes |
-| --- | --- | --- |
-| Supabase | Built in | Uses service-role credentials server-side and signed upload URLs client-side. |
-| S3-compatible | Built in | Works with AWS S3, R2, B2, MinIO, and Spaces. |
-| Local disk | Development | Read/download support; direct browser uploads are intentionally disabled in v0.0.1. |
+| Adapter       | Status      | Notes                                                                               |
+| ------------- | ----------- | ----------------------------------------------------------------------------------- |
+| Supabase      | Built in    | Uses service-role credentials server-side and signed upload URLs client-side.       |
+| S3-compatible | Built in    | Works with AWS S3, R2, B2, MinIO, and Spaces.                                       |
+| Local disk    | Development | Read/download support; direct browser uploads are intentionally disabled in v0.0.1. |
 
 ## Collections
 

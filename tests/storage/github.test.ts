@@ -129,9 +129,30 @@ describe("GitHubStorageAdapter", () => {
     const client = makeOctokit({
       getContent: vi.fn(async () => ({
         data: [
-          { name: ".gitcms-folder", path: "public/uploads/blog/.gitcms-folder", type: "file", size: 0, sha: "x", download_url: null },
-          { name: "cover.jpg", path: "public/uploads/blog/cover.jpg", type: "file", size: 100, sha: "abc", download_url: null },
-          { name: "drafts", path: "public/uploads/blog/drafts", type: "dir", size: 0, sha: "def", download_url: null },
+          {
+            name: ".gitcms-folder",
+            path: "public/uploads/blog/.gitcms-folder",
+            type: "file",
+            size: 0,
+            sha: "x",
+            download_url: null,
+          },
+          {
+            name: "cover.jpg",
+            path: "public/uploads/blog/cover.jpg",
+            type: "file",
+            size: 100,
+            sha: "abc",
+            download_url: null,
+          },
+          {
+            name: "drafts",
+            path: "public/uploads/blog/drafts",
+            type: "dir",
+            size: 0,
+            sha: "def",
+            download_url: null,
+          },
         ],
       })),
     });
