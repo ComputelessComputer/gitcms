@@ -15,8 +15,8 @@ import {
 import * as React from "react";
 
 import { Button } from "../../components/ui/button";
+import { remarkMarkdownAdapter } from "../../markdown";
 import { createGitcmsExtensions } from "./extensions";
-import { htmlToMarkdown, markdownToHtml } from "./markdown-serializer";
 
 export interface GitcmsEditorProps {
   /** Initial markdown source. Reset by remounting the component with a new key. */
@@ -35,10 +35,10 @@ export function GitcmsEditor({
 }: GitcmsEditorProps): React.ReactElement {
   const editor = useEditor({
     extensions: createGitcmsExtensions(),
-    content: markdownToHtml(initialMarkdown),
+    content: remarkMarkdownAdapter.parse(initialMarkdown),
     immediatelyRender: false,
     onUpdate: ({ editor: currentEditor }) => {
-      onMarkdownChange(htmlToMarkdown(currentEditor.getHTML()));
+      onMarkdownChange(remarkMarkdownAdapter.serialize(currentEditor.getJSON()));
     },
   });
 
