@@ -13,7 +13,7 @@
 - Save to working branches, publish through pull requests, or direct commit.
 - Media library with signed browser uploads, folders, move, rename, and delete.
 - Pluggable storage adapters for Supabase, S3-compatible providers, and GitHub itself.
-- Author Context (writing brief): commit a brand/voice doc into your content repo, agents read it before drafting. See [`docs/AUTHOR-CONTEXT.md`](docs/AUTHOR-CONTEXT.md).
+- Author Context (writing brief): commit a brand/voice doc into your content repo, agents read it before drafting. `pnpm gitcms:init-context` to scaffold. See [`docs/AUTHOR-CONTEXT.md`](docs/AUTHOR-CONTEXT.md).
 - Docker, Railway, Fly.io, Vercel, and Netlify deployment config.
 
 ## For AI agents

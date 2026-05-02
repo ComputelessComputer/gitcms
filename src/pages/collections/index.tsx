@@ -3,6 +3,7 @@ import { SaveIcon, SendIcon, Trash2Icon } from "lucide-react";
 import * as React from "react";
 
 import type { CollectionDescriptor } from "../../config";
+import { AuthorContextPanel } from "../../components/author-context-panel";
 import { FrontmatterPanel } from "../../components/frontmatter-panel";
 import { FileTree } from "../../components/file-tree";
 import { MarkdownEditor } from "../../components/markdown-editor";
@@ -151,73 +152,76 @@ function ContentEditorPane({
 
   return (
     <main className="grid min-w-0 grid-cols-[minmax(0,1fr)_320px]">
-      <section className="min-w-0 overflow-auto p-4">
-        <div className="mb-4 flex flex-wrap items-center gap-3">
-          <Input
-            className="max-w-sm"
-            value={slug}
-            onChange={(event) => setSlug(event.currentTarget.value)}
-          />
-          <label className="flex items-center gap-2 text-sm text-slate-600">
-            <input
-              type="checkbox"
-              checked={directCommit}
-              onChange={(event) => setDirectCommit(event.currentTarget.checked)}
-              className="size-4 rounded border-slate-300"
+      <section className="flex min-w-0 flex-col overflow-auto">
+        <AuthorContextPanel collectionId={collection.id} />
+        <div className="flex flex-1 flex-col p-4">
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <Input
+              className="max-w-sm"
+              value={slug}
+              onChange={(event) => setSlug(event.currentTarget.value)}
             />
-            Direct commit
-          </label>
-          <Button
-            variant="primary"
-            disabled={saveMutation.isPending || renameMutation.isPending}
-            onClick={async () => {
-              if (file && slug !== file.slug) {
-                await renameMutation.mutateAsync({
+            <label className="flex items-center gap-2 text-sm text-slate-600">
+              <input
+                type="checkbox"
+                checked={directCommit}
+                onChange={(event) => setDirectCommit(event.currentTarget.checked)}
+                className="size-4 rounded border-slate-300"
+              />
+              Direct commit
+            </label>
+            <Button
+              variant="primary"
+              disabled={saveMutation.isPending || renameMutation.isPending}
+              onClick={async () => {
+                if (file && slug !== file.slug) {
+                  await renameMutation.mutateAsync({
+                    collectionId: collection.id,
+                    fromPath: file.path,
+                    toSlug: slug,
+                    commitMessage: `Rename ${file.slug} to ${slug}`,
+                  });
+                }
+                const result = await saveMutation.mutateAsync({
                   collectionId: collection.id,
-                  fromPath: file.path,
-                  toSlug: slug,
-                  commitMessage: `Rename ${file.slug} to ${slug}`,
+                  slug,
+                  frontmatter,
+                  body,
+                  directCommit,
+                  commitMessage: `${file ? "Update" : "Create"} ${slug}`,
                 });
-              }
-              const result = await saveMutation.mutateAsync({
-                collectionId: collection.id,
-                slug,
-                frontmatter,
-                body,
-                directCommit,
-                commitMessage: `${file ? "Update" : "Create"} ${slug}`,
-              });
-              onSaved(result.path);
-            }}
-          >
-            <SaveIcon className="size-4" />
-            Save
-          </Button>
-          <Button
-            disabled={publishMutation.isPending}
-            onClick={async () => {
-              const result = await publishMutation.mutateAsync({
-                slug,
-                title: `Publish ${slug}`,
-              });
-              window.open(result.url, "_blank", "noopener,noreferrer");
-            }}
-          >
-            <SendIcon className="size-4" />
-            Publish
-          </Button>
-          {onDelete && (
-            <Button variant="danger" onClick={() => void onDelete()}>
-              <Trash2Icon className="size-4" />
-              Delete
+                onSaved(result.path);
+              }}
+            >
+              <SaveIcon className="size-4" />
+              Save
             </Button>
-          )}
+            <Button
+              disabled={publishMutation.isPending}
+              onClick={async () => {
+                const result = await publishMutation.mutateAsync({
+                  slug,
+                  title: `Publish ${slug}`,
+                });
+                window.open(result.url, "_blank", "noopener,noreferrer");
+              }}
+            >
+              <SendIcon className="size-4" />
+              Publish
+            </Button>
+            {onDelete && (
+              <Button variant="danger" onClick={() => void onDelete()}>
+                <Trash2Icon className="size-4" />
+                Delete
+              </Button>
+            )}
+          </div>
+          <MarkdownEditor
+            initialMarkdown={initialBody}
+            onMarkdownChange={setBody}
+            onOpenMediaPicker={(insert) => setMediaInsert(() => insert)}
+          />
         </div>
-        <MarkdownEditor
-          initialMarkdown={initialBody}
-          onMarkdownChange={setBody}
-          onOpenMediaPicker={(insert) => setMediaInsert(() => insert)}
-        />
       </section>
       <FrontmatterPanel collection={collection} value={frontmatter} onChange={setFrontmatter} />
       <MediaPickerDialog

@@ -13,6 +13,7 @@
     "typecheck": "pnpm routegen && tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
+    "gitcms:init-context": "node scripts/init-context.mjs",
     "format": "prettier --check ."
   },
   "exports": {
