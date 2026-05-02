@@ -16,6 +16,8 @@ import type {
   TableRow,
 } from "mdast";
 
+import { getRawMdxAttrs } from "./mdx-jsx-utils";
+
 type JsonAttrs = NonNullable<JSONContent["attrs"]>;
 type JsonMark = NonNullable<JSONContent["marks"]>[number];
 
@@ -28,6 +30,13 @@ export function jsonToMdast(json: JSONContent): Root {
 }
 
 function jsonBlockToMdast(node: JSONContent): RootContent[] {
+  const rawMdx = getRawMdxAttrs(node);
+  if (rawMdx) {
+    return rawMdx.kind === "flow"
+      ? [{ type: "html", value: rawMdx.raw }]
+      : [{ type: "paragraph", children: [{ type: "html", value: rawMdx.raw }] }];
+  }
+
   switch (node.type) {
     case "doc":
       return jsonChildren(node).flatMap((child) => jsonBlockToMdast(child));
@@ -186,6 +195,11 @@ function renderMarkedInline(nodes: JSONContent[], markIndex: number): PhrasingCo
 }
 
 function jsonInlineNodeToMdast(node: JSONContent): PhrasingContent[] {
+  const rawMdx = getRawMdxAttrs(node);
+  if (rawMdx) {
+    return [{ type: "html", value: rawMdx.raw }];
+  }
+
   switch (node.type) {
     case "text":
       return textToMdast(node);

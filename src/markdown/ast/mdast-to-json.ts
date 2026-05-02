@@ -11,34 +11,40 @@ import type {
   TableRow,
 } from "mdast";
 
+import { rawMdxNodeName, rawMdxFromHtml, type RawMdxPlaceholderMap } from "./mdx-jsx-utils";
+
 type JsonAttrs = NonNullable<JSONContent["attrs"]>;
 type JsonMark = NonNullable<JSONContent["marks"]>[number];
 
+interface MdastToJsonOptions {
+  rawMdxById?: RawMdxPlaceholderMap;
+}
+
 /** Converts a remark/mdast tree into Tiptap JSONContent. */
-export function mdastToJson(tree: Root): JSONContent {
+export function mdastToJson(tree: Root, options: MdastToJsonOptions = {}): JSONContent {
   return {
     type: "doc",
-    content: tree.children.flatMap((child) => rootContentToJson(child)),
+    content: tree.children.flatMap((child) => rootContentToJson(child, options)),
   };
 }
 
-function rootContentToJson(node: RootContent): JSONContent[] {
+function rootContentToJson(node: RootContent, options: MdastToJsonOptions): JSONContent[] {
   switch (node.type) {
     case "paragraph":
-      return [paragraphJson(node.children)];
+      return [paragraphJson(node.children, options)];
     case "heading":
       return [
         {
           type: "heading",
           attrs: { level: node.depth },
-          content: phrasingToJson(node.children),
+          content: phrasingToJson(node.children, options),
         },
       ];
     case "blockquote":
       return [
         {
           type: "blockquote",
-          content: node.children.flatMap((child) => blockContentToJson(child)),
+          content: node.children.flatMap((child) => blockContentToJson(child, options)),
         },
       ];
     case "list":
@@ -46,7 +52,7 @@ function rootContentToJson(node: RootContent): JSONContent[] {
         {
           type: node.ordered ? "orderedList" : "bulletList",
           attrs: listAttrs(node.start ?? undefined),
-          content: node.children.map((child) => listItemToJson(child)),
+          content: node.children.map((child) => listItemToJson(child, options)),
         },
       ];
     case "code":
@@ -64,7 +70,7 @@ function rootContentToJson(node: RootContent): JSONContent[] {
         {
           type: "table",
           attrs: tableAttrs(node.align ?? undefined),
-          content: node.children.map((row, index) => tableRowToJson(row, index === 0)),
+          content: node.children.map((row, index) => tableRowToJson(row, index === 0, options)),
         },
       ];
     case "break":
@@ -78,22 +84,25 @@ function rootContentToJson(node: RootContent): JSONContent[] {
     case "linkReference":
     case "strong":
     case "text":
-      return [paragraphJson([node])];
+      return [paragraphJson([node], options)];
     case "html":
-      return [paragraphJson([{ type: "text", value: node.value }])];
+      return htmlToJson(node.value, options, "flow");
     case "definition":
-      return [paragraphJson([{ type: "text", value: definitionSource(node.identifier) }])];
+      return [paragraphJson([{ type: "text", value: definitionSource(node.identifier) }], options)];
     case "footnoteDefinition":
       return [
-        paragraphJson([{ type: "text", value: footnoteDefinitionSource(node.identifier) }]),
-        ...node.children.flatMap((child) => blockContentToJson(child)),
+        paragraphJson(
+          [{ type: "text", value: footnoteDefinitionSource(node.identifier) }],
+          options,
+        ),
+        ...node.children.flatMap((child) => blockContentToJson(child, options)),
       ];
     case "listItem":
-      return [listItemToJson(node)];
+      return [listItemToJson(node, options)];
     case "tableCell":
-      return [paragraphJson(node.children)];
+      return [paragraphJson(node.children, options)];
     case "tableRow":
-      return [tableRowToJson(node, false)];
+      return [tableRowToJson(node, false, options)];
     case "yaml":
       return [];
     default:
@@ -101,19 +110,22 @@ function rootContentToJson(node: RootContent): JSONContent[] {
   }
 }
 
-function blockContentToJson(node: BlockContent | DefinitionContent): JSONContent[] {
-  return rootContentToJson(node);
+function blockContentToJson(
+  node: BlockContent | DefinitionContent,
+  options: MdastToJsonOptions,
+): JSONContent[] {
+  return rootContentToJson(node, options);
 }
 
-function paragraphJson(children: PhrasingContent[]): JSONContent {
-  const content = phrasingToJson(children);
+function paragraphJson(children: PhrasingContent[], options: MdastToJsonOptions): JSONContent {
+  const content = phrasingToJson(children, options);
   return {
     type: "paragraph",
     content: content.length > 0 ? content : undefined,
   };
 }
 
-function listItemToJson(node: ListItem): JSONContent {
+function listItemToJson(node: ListItem, options: MdastToJsonOptions): JSONContent {
   const attrs: JsonAttrs = {};
   if (typeof node.checked === "boolean") {
     attrs.checked = node.checked;
@@ -122,7 +134,7 @@ function listItemToJson(node: ListItem): JSONContent {
     attrs.spread = true;
   }
 
-  const content = node.children.flatMap((child) => blockContentToJson(child));
+  const content = node.children.flatMap((child) => blockContentToJson(child, options));
   return {
     type: "listItem",
     attrs: Object.keys(attrs).length > 0 ? attrs : undefined,
@@ -130,39 +142,43 @@ function listItemToJson(node: ListItem): JSONContent {
   };
 }
 
-function tableRowToJson(node: TableRow, header: boolean): JSONContent {
+function tableRowToJson(node: TableRow, header: boolean, options: MdastToJsonOptions): JSONContent {
   return {
     type: "tableRow",
-    content: node.children.map((cell) => tableCellToJson(cell, header)),
+    content: node.children.map((cell) => tableCellToJson(cell, header, options)),
   };
 }
 
-function tableCellToJson(node: TableCell, header: boolean): JSONContent {
-  const content = phrasingToJson(node.children);
+function tableCellToJson(
+  node: TableCell,
+  header: boolean,
+  options: MdastToJsonOptions,
+): JSONContent {
+  const content = phrasingToJson(node.children, options);
   return {
     type: header ? "tableHeader" : "tableCell",
     content: [{ type: "paragraph", content: content.length > 0 ? content : undefined }],
   };
 }
 
-function phrasingToJson(children: PhrasingContent[]): JSONContent[] {
-  return children.flatMap((child) => phrasingChildToJson(child));
+function phrasingToJson(children: PhrasingContent[], options: MdastToJsonOptions): JSONContent[] {
+  return children.flatMap((child) => phrasingChildToJson(child, options));
 }
 
-function phrasingChildToJson(node: PhrasingContent): JSONContent[] {
+function phrasingChildToJson(node: PhrasingContent, options: MdastToJsonOptions): JSONContent[] {
   switch (node.type) {
     case "text":
       return textJson(node.value);
     case "emphasis":
-      return withMark(phrasingToJson(node.children), { type: "italic" });
+      return withMark(phrasingToJson(node.children, options), { type: "italic" });
     case "strong":
-      return withMark(phrasingToJson(node.children), { type: "bold" });
+      return withMark(phrasingToJson(node.children, options), { type: "bold" });
     case "delete":
-      return withMark(phrasingToJson(node.children), { type: "strike" });
+      return withMark(phrasingToJson(node.children, options), { type: "strike" });
     case "inlineCode":
       return textJson(node.value, [{ type: "code" }]);
     case "link":
-      return withMark(phrasingToJson(node.children), {
+      return withMark(phrasingToJson(node.children, options), {
         type: "link",
         attrs: linkAttrs(node.url, node.title ?? undefined),
       });
@@ -182,10 +198,25 @@ function phrasingChildToJson(node: PhrasingContent): JSONContent[] {
     case "footnoteReference":
       return textJson(`[^${node.identifier}]`);
     case "html":
-      return textJson(node.value);
+      return htmlToJson(node.value, options, "text");
     default:
       return [];
   }
+}
+
+function htmlToJson(
+  value: string,
+  options: MdastToJsonOptions,
+  fallbackKind: "flow" | "text",
+): JSONContent[] {
+  const rawMdx = options.rawMdxById ? rawMdxFromHtml(value, options.rawMdxById) : null;
+  if (rawMdx) {
+    return [rawMdx];
+  }
+
+  return fallbackKind === "flow"
+    ? [paragraphJson([{ type: "text", value }], options)]
+    : textJson(value);
 }
 
 function textJson(text: string, marks?: JsonMark[]): JSONContent[] {
@@ -197,7 +228,9 @@ function textJson(text: string, marks?: JsonMark[]): JSONContent[] {
 
 function withMark(content: JSONContent[], mark: JsonMark): JSONContent[] {
   return content.map((node) =>
-    node.type === "text" ? { ...node, marks: [...(node.marks ?? []), mark] } : node,
+    node.type === "text" || node.type === rawMdxNodeName
+      ? { ...node, marks: [...(node.marks ?? []), mark] }
+      : node,
   );
 }
 
