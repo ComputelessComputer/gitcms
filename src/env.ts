@@ -9,6 +9,19 @@ const envSchema = z.object({
   GITHUB_OAUTH_CALLBACK_URL: z.string().url().optional(),
   SESSION_SECRET: z.string().optional(),
   GITCMS_ADMIN_LOGINS: z.string().optional(),
+  GITCMS_MEMBERS: z.string().optional(),
+  GITCMS_AUTH_MODE: z.enum(["github", "jwt"]).default("github"),
+  GITCMS_GITHUB_TOKEN_SOURCE: z.enum(["oauth", "service"]).default("oauth"),
+  GITCMS_GITHUB_SERVICE_TOKEN: z.string().optional(),
+  GITCMS_AUTH_JWT_ISSUER: z.string().url().optional(),
+  GITCMS_AUTH_JWT_AUDIENCE: z.string().optional(),
+  GITCMS_AUTH_JWT_JWKS_URL: z.string().url().optional(),
+  GITCMS_AUTH_JWT_COOKIE_NAME: z.string().default("gitcms_jwt"),
+  GITCMS_AUTH_JWT_CLAIM_SUBJECT: z.string().default("sub"),
+  GITCMS_AUTH_JWT_CLAIM_EMAIL: z.string().default("email"),
+  GITCMS_AUTH_JWT_CLAIM_LOGIN: z.string().default("preferred_username"),
+  GITCMS_AUTH_JWT_CLAIM_NAME: z.string().default("name"),
+  GITCMS_AUTH_JWT_CLAIM_AVATAR: z.string().default("picture"),
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
   SUPABASE_MEDIA_BUCKET: z.string().default("gitcms-media"),
@@ -42,14 +55,4 @@ export type RuntimeEnv = z.infer<typeof envSchema>;
 /** Parses and validates all environment variables used by gitcms. */
 export function getEnv(): RuntimeEnv {
   return envSchema.parse(process.env);
-}
-
-/** Parses the comma-separated GitHub admin allowlist from env. */
-export function getAdminLogins(env = getEnv()): Set<string> {
-  return new Set(
-    (env.GITCMS_ADMIN_LOGINS ?? "")
-      .split(",")
-      .map((login) => login.trim().toLowerCase())
-      .filter(Boolean),
-  );
 }
