@@ -22,6 +22,10 @@ const envSchema = z.object({
   GITCMS_AUTH_JWT_CLAIM_LOGIN: z.string().default("preferred_username"),
   GITCMS_AUTH_JWT_CLAIM_NAME: z.string().default("name"),
   GITCMS_AUTH_JWT_CLAIM_AVATAR: z.string().default("picture"),
+  GITCMS_CONTEXT_PUBLIC: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((value) => value === "true"),
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
   SUPABASE_MEDIA_BUCKET: z.string().default("gitcms-media"),

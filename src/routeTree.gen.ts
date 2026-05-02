@@ -8,191 +8,212 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as MediaIndexRouteImport } from "./routes/media/index";
-import { Route as CollectionsIndexRouteImport } from "./routes/collections/index";
-import { Route as AuthSigninRouteImport } from "./routes/auth/signin";
-import { Route as AuthCallbackRouteImport } from "./routes/auth/callback";
-import { Route as ApiMediaUploadRouteImport } from "./routes/api/media/upload";
-import { Route as ApiMediaDownloadRouteImport } from "./routes/api/media/download";
+import { Route as rootRouteImport } from "./routes/__root"
+import { Route as IndexRouteImport } from "./routes/index"
+import { Route as MediaIndexRouteImport } from "./routes/media/index"
+import { Route as CollectionsIndexRouteImport } from "./routes/collections/index"
+import { Route as AuthSigninRouteImport } from "./routes/auth/signin"
+import { Route as AuthCallbackRouteImport } from "./routes/auth/callback"
+import { Route as ApiContextRouteImport } from "./routes/api/context"
+import { Route as ApiMediaUploadRouteImport } from "./routes/api/media/upload"
+import { Route as ApiMediaDownloadRouteImport } from "./routes/api/media/download"
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const MediaIndexRoute = MediaIndexRouteImport.update({
   id: "/media/",
   path: "/media/",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   id: "/collections/",
   path: "/collections/",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthSigninRoute = AuthSigninRouteImport.update({
   id: "/auth/signin",
   path: "/auth/signin",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: "/auth/callback",
   path: "/auth/callback",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
+const ApiContextRoute = ApiContextRouteImport.update({
+  id: "/api/context",
+  path: "/api/context",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiMediaUploadRoute = ApiMediaUploadRouteImport.update({
   id: "/api/media/upload",
   path: "/api/media/upload",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ApiMediaDownloadRoute = ApiMediaDownloadRouteImport.update({
   id: "/api/media/download",
   path: "/api/media/download",
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/auth/callback": typeof AuthCallbackRoute;
-  "/auth/signin": typeof AuthSigninRoute;
-  "/collections/": typeof CollectionsIndexRoute;
-  "/media/": typeof MediaIndexRoute;
-  "/api/media/download": typeof ApiMediaDownloadRoute;
-  "/api/media/upload": typeof ApiMediaUploadRoute;
+  "/": typeof IndexRoute
+  "/api/context": typeof ApiContextRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/auth/signin": typeof AuthSigninRoute
+  "/collections/": typeof CollectionsIndexRoute
+  "/media/": typeof MediaIndexRoute
+  "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/auth/callback": typeof AuthCallbackRoute;
-  "/auth/signin": typeof AuthSigninRoute;
-  "/collections": typeof CollectionsIndexRoute;
-  "/media": typeof MediaIndexRoute;
-  "/api/media/download": typeof ApiMediaDownloadRoute;
-  "/api/media/upload": typeof ApiMediaUploadRoute;
+  "/": typeof IndexRoute
+  "/api/context": typeof ApiContextRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/auth/signin": typeof AuthSigninRoute
+  "/collections": typeof CollectionsIndexRoute
+  "/media": typeof MediaIndexRoute
+  "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/auth/callback": typeof AuthCallbackRoute;
-  "/auth/signin": typeof AuthSigninRoute;
-  "/collections/": typeof CollectionsIndexRoute;
-  "/media/": typeof MediaIndexRoute;
-  "/api/media/download": typeof ApiMediaDownloadRoute;
-  "/api/media/upload": typeof ApiMediaUploadRoute;
+  __root__: typeof rootRouteImport
+  "/": typeof IndexRoute
+  "/api/context": typeof ApiContextRoute
+  "/auth/callback": typeof AuthCallbackRoute
+  "/auth/signin": typeof AuthSigninRoute
+  "/collections/": typeof CollectionsIndexRoute
+  "/media/": typeof MediaIndexRoute
+  "/api/media/download": typeof ApiMediaDownloadRoute
+  "/api/media/upload": typeof ApiMediaUploadRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | "/"
+    | "/api/context"
     | "/auth/callback"
     | "/auth/signin"
     | "/collections/"
     | "/media/"
     | "/api/media/download"
-    | "/api/media/upload";
-  fileRoutesByTo: FileRoutesByTo;
+    | "/api/media/upload"
+  fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
+    | "/api/context"
     | "/auth/callback"
     | "/auth/signin"
     | "/collections"
     | "/media"
     | "/api/media/download"
-    | "/api/media/upload";
+    | "/api/media/upload"
   id:
     | "__root__"
     | "/"
+    | "/api/context"
     | "/auth/callback"
     | "/auth/signin"
     | "/collections/"
     | "/media/"
     | "/api/media/download"
-    | "/api/media/upload";
-  fileRoutesById: FileRoutesById;
+    | "/api/media/upload"
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthCallbackRoute: typeof AuthCallbackRoute;
-  AuthSigninRoute: typeof AuthSigninRoute;
-  CollectionsIndexRoute: typeof CollectionsIndexRoute;
-  MediaIndexRoute: typeof MediaIndexRoute;
-  ApiMediaDownloadRoute: typeof ApiMediaDownloadRoute;
-  ApiMediaUploadRoute: typeof ApiMediaUploadRoute;
+  IndexRoute: typeof IndexRoute
+  ApiContextRoute: typeof ApiContextRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthSigninRoute: typeof AuthSigninRoute
+  CollectionsIndexRoute: typeof CollectionsIndexRoute
+  MediaIndexRoute: typeof MediaIndexRoute
+  ApiMediaDownloadRoute: typeof ApiMediaDownloadRoute
+  ApiMediaUploadRoute: typeof ApiMediaUploadRoute
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
     "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/"
+      path: "/"
+      fullPath: "/"
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/media/": {
-      id: "/media/";
-      path: "/media";
-      fullPath: "/media/";
-      preLoaderRoute: typeof MediaIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/media/"
+      path: "/media"
+      fullPath: "/media/"
+      preLoaderRoute: typeof MediaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/collections/": {
-      id: "/collections/";
-      path: "/collections";
-      fullPath: "/collections/";
-      preLoaderRoute: typeof CollectionsIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/collections/"
+      path: "/collections"
+      fullPath: "/collections/"
+      preLoaderRoute: typeof CollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/auth/signin": {
-      id: "/auth/signin";
-      path: "/auth/signin";
-      fullPath: "/auth/signin";
-      preLoaderRoute: typeof AuthSigninRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/auth/signin"
+      path: "/auth/signin"
+      fullPath: "/auth/signin"
+      preLoaderRoute: typeof AuthSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/auth/callback": {
-      id: "/auth/callback";
-      path: "/auth/callback";
-      fullPath: "/auth/callback";
-      preLoaderRoute: typeof AuthCallbackRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/auth/callback"
+      path: "/auth/callback"
+      fullPath: "/auth/callback"
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/api/context": {
+      id: "/api/context"
+      path: "/api/context"
+      fullPath: "/api/context"
+      preLoaderRoute: typeof ApiContextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/api/media/upload": {
-      id: "/api/media/upload";
-      path: "/api/media/upload";
-      fullPath: "/api/media/upload";
-      preLoaderRoute: typeof ApiMediaUploadRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/api/media/upload"
+      path: "/api/media/upload"
+      fullPath: "/api/media/upload"
+      preLoaderRoute: typeof ApiMediaUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/api/media/download": {
-      id: "/api/media/download";
-      path: "/api/media/download";
-      fullPath: "/api/media/download";
-      preLoaderRoute: typeof ApiMediaDownloadRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: "/api/media/download"
+      path: "/api/media/download"
+      fullPath: "/api/media/download"
+      preLoaderRoute: typeof ApiMediaDownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiContextRoute: ApiContextRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthSigninRoute: AuthSigninRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   MediaIndexRoute: MediaIndexRoute,
   ApiMediaDownloadRoute: ApiMediaDownloadRoute,
   ApiMediaUploadRoute: ApiMediaUploadRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx";
-import type { createStart } from "@tanstack/react-start";
+import type { getRouter } from "./router.tsx"
+import type { createStart } from "@tanstack/react-start"
 declare module "@tanstack/react-start" {
   interface Register {
-    ssr: true;
-    router: Awaited<ReturnType<typeof getRouter>>;
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }
