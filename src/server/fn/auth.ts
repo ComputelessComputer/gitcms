@@ -1,22 +1,27 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { createGitHubAuthorizeUrl, completeGitHubOAuth } from "../../auth/github-oauth";
-import {
-  clearAdminSession,
-  readAdminSession,
-  toPublicAdminUser,
-  type PublicAdminUser,
-} from "../../auth/session";
+import { getAuthAdapter } from "../../auth";
+import { toPublicIdentity, type PublicAuthIdentity } from "../../auth/adapter";
+import { GitcmsConfigError } from "../../lib/errors";
 
-/** Starts the GitHub OAuth flow by returning an authorization URL. */
+/** Starts an interactive sign-in. Returns a redirect URL the browser
+ *  should navigate to. Errors when the configured auth mode is non-interactive
+ *  (e.g. JWT) — those modes get their tokens from the upstream provider. */
 export const authStart = createServerFn({ method: "POST" })
   .inputValidator(z.object({}))
   .handler(async (): Promise<{ url: string }> => {
-    return { url: await createGitHubAuthorizeUrl() };
+    const adapter = getAuthAdapter();
+    if (!adapter.supportsInteractiveSignIn) {
+      throw new GitcmsConfigError(
+        `Auth mode "${adapter.name}" does not handle sign-in. Configure your upstream provider directly.`,
+      );
+    }
+    const { redirectUrl } = await adapter.startSignIn();
+    return { url: redirectUrl };
   });
 
-/** Completes the GitHub OAuth callback and writes the session cookie. */
+/** Completes an interactive sign-in callback. */
 export const authComplete = createServerFn({ method: "POST" })
   .inputValidator(
     z.object({
@@ -24,22 +29,24 @@ export const authComplete = createServerFn({ method: "POST" })
       state: z.string().min(1),
     }),
   )
-  .handler(async ({ data }): Promise<PublicAdminUser> => {
-    return completeGitHubOAuth(data);
+  .handler(async ({ data }): Promise<PublicAuthIdentity> => {
+    const adapter = getAuthAdapter();
+    const identity = await adapter.completeSignIn(data);
+    return toPublicIdentity(identity);
   });
 
 /** Clears the current admin session. */
 export const authSignOut = createServerFn({ method: "POST" })
   .inputValidator(z.object({}))
   .handler(async (): Promise<{ success: true }> => {
-    clearAdminSession();
+    await getAuthAdapter().signOut();
     return { success: true };
   });
 
-/** Returns the current public admin user, or null when signed out. */
+/** Returns the current public identity, or null when signed out. */
 export const authCurrentUser = createServerFn({ method: "GET" }).handler(
-  async (): Promise<PublicAdminUser | null> => {
-    const session = await readAdminSession();
-    return session ? toPublicAdminUser(session) : null;
+  async (): Promise<PublicAuthIdentity | null> => {
+    const identity = await getAuthAdapter().resolveIdentityFromContext();
+    return identity ? toPublicIdentity(identity) : null;
   },
 );

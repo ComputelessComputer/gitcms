@@ -1,13 +1,17 @@
 import { Readable } from "node:stream";
 
-import { readAdminSessionFromCookieHeader } from "../../auth/session";
+import { getAuthAdapter, getMembersProvider } from "../../auth";
 import { AdminUnauthorizedError, GitcmsValidationError } from "../../lib/errors";
 import { getStorageAdapter } from "../../storage";
 
 /** Streams media bytes through an authenticated HTTP response. */
 export async function handleMediaDownload(request: Request): Promise<Response> {
-  const session = await readAdminSessionFromCookieHeader(request.headers.get("cookie") ?? "");
-  if (!session) {
+  const identity = await getAuthAdapter().resolveIdentity(request);
+  if (!identity) {
+    throw new AdminUnauthorizedError();
+  }
+  const member = await getMembersProvider().resolve(identity);
+  if (!member) {
     throw new AdminUnauthorizedError();
   }
 

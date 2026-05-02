@@ -1,4 +1,4 @@
-import { readAdminSessionFromCookieHeader } from "../../auth/session";
+import { getAuthAdapter, getMembersProvider } from "../../auth";
 import {
   AdminUnauthorizedError,
   GitcmsStorageError,
@@ -13,8 +13,12 @@ const MAX_BODY_BYTES = 25 * 1024 * 1024;
  *  storage adapter. Currently only used by the GitHub storage backend, since
  *  S3 and Supabase return signed URLs the browser can PUT to directly. */
 export async function handleMediaUpload(request: Request): Promise<Response> {
-  const session = await readAdminSessionFromCookieHeader(request.headers.get("cookie") ?? "");
-  if (!session) {
+  const identity = await getAuthAdapter().resolveIdentity(request);
+  if (!identity) {
+    throw new AdminUnauthorizedError();
+  }
+  const member = await getMembersProvider().resolve(identity);
+  if (!member) {
     throw new AdminUnauthorizedError();
   }
 
