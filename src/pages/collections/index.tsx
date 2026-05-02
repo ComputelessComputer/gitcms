@@ -142,7 +142,9 @@ function ContentEditorPane({
   const [frontmatter, setFrontmatter] = React.useState<JsonRecord>(initialFrontmatter);
   const [body, setBody] = React.useState(initialBody);
   const [directCommit, setDirectCommit] = React.useState(false);
-  const [mediaInsert, setMediaInsert] = React.useState<((url: string, alt?: string) => void) | null>(null);
+  const [mediaInsert, setMediaInsert] = React.useState<
+    ((url: string, alt?: string) => void) | null
+  >(null);
   const saveMutation = useContentSaveMutation();
   const renameMutation = useContentRenameMutation();
   const publishMutation = useContentPublishMutation();
@@ -151,7 +153,11 @@ function ContentEditorPane({
     <main className="grid min-w-0 grid-cols-[minmax(0,1fr)_320px]">
       <section className="min-w-0 overflow-auto p-4">
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <Input className="max-w-sm" value={slug} onChange={(event) => setSlug(event.currentTarget.value)} />
+          <Input
+            className="max-w-sm"
+            value={slug}
+            onChange={(event) => setSlug(event.currentTarget.value)}
+          />
           <label className="flex items-center gap-2 text-sm text-slate-600">
             <input
               type="checkbox"

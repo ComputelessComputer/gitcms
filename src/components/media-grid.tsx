@@ -63,11 +63,21 @@ export function MediaGrid({
               </span>
               <div className="flex shrink-0 items-center">
                 {!isFolder && (
-                  <Button size="icon" variant="ghost" aria-label="Rename" onClick={() => onRename(item.path)}>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label="Rename"
+                    onClick={() => onRename(item.path)}
+                  >
                     <PencilIcon className="size-4" />
                   </Button>
                 )}
-                <Button size="icon" variant="ghost" aria-label="Delete" onClick={() => onDelete(item.path)}>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Delete"
+                  onClick={() => onDelete(item.path)}
+                >
                   <Trash2Icon className="size-4" />
                 </Button>
               </div>

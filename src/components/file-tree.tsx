@@ -64,7 +64,11 @@ export function FileTree({
               file.type === "dir" && "font-medium text-slate-500",
             )}
           >
-            {file.type === "dir" ? <FolderIcon className="size-4" /> : <FileTextIcon className="size-4" />}
+            {file.type === "dir" ? (
+              <FolderIcon className="size-4" />
+            ) : (
+              <FileTextIcon className="size-4" />
+            )}
             <span className="truncate">{file.name}</span>
           </button>
         ))}

@@ -47,8 +47,7 @@ export function getGitHubTokenSource(): GitHubTokenSource {
   // Sensible default: when AUTH_MODE=jwt, OAuth tokens are unavailable so
   // service is the only working choice. We still let users opt in explicitly.
   const source =
-    env.GITCMS_GITHUB_TOKEN_SOURCE ??
-    (env.GITCMS_AUTH_MODE === "jwt" ? "service" : "oauth");
+    env.GITCMS_GITHUB_TOKEN_SOURCE ?? (env.GITCMS_AUTH_MODE === "jwt" ? "service" : "oauth");
 
   switch (source) {
     case "service":

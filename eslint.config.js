@@ -5,13 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [
-      ".output",
-      "dist",
-      "node_modules",
-      "src/routeTree.gen.ts",
-      "pnpm-lock.yaml"
-    ],
+    ignores: [".output", "dist", "node_modules", "src/routeTree.gen.ts", "pnpm-lock.yaml"],
   },
   js.configs.recommended,
   ...tseslint.configs.strict,
@@ -34,16 +28,16 @@ export default tseslint.config(
       "no-restricted-imports": [
         "error",
         {
-          "paths": [
+          paths: [
             {
-              "name": "react",
-              "importNames": ["useEffect"],
-              "message": "Use derived state, event handlers, React Query, or useMountEffect instead."
-            }
-          ]
-        }
+              name: "react",
+              importNames: ["useEffect"],
+              message: "Use derived state, event handlers, React Query, or useMountEffect instead.",
+            },
+          ],
+        },
       ],
-      "react-refresh/only-export-components": "off"
-    }
-  }
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

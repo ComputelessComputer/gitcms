@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { getFolder, getName, normalizeVirtualPath, slugify, toMarkdownFilename } from "../../src/lib/slug";
+import {
+  getFolder,
+  getName,
+  normalizeVirtualPath,
+  slugify,
+  toMarkdownFilename,
+} from "../../src/lib/slug";
 
 describe("slug helpers", () => {
   it("creates stable ascii slugs", () => {

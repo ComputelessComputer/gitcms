@@ -41,7 +41,9 @@ export function useContentSaveMutation() {
   return useMutation({
     mutationFn: (data: Parameters<typeof contentSave>[0]["data"]) => contentSave({ data }),
     onSuccess: async (_result, variables) => {
-      await queryClient.invalidateQueries({ queryKey: contentKeys.collection(variables.collectionId) });
+      await queryClient.invalidateQueries({
+        queryKey: contentKeys.collection(variables.collectionId),
+      });
       await queryClient.invalidateQueries({ queryKey: contentKeys.all });
     },
   });
@@ -53,7 +55,9 @@ export function useContentRenameMutation() {
   return useMutation({
     mutationFn: (data: Parameters<typeof contentRename>[0]["data"]) => contentRename({ data }),
     onSuccess: async (_result, variables) => {
-      await queryClient.invalidateQueries({ queryKey: contentKeys.collection(variables.collectionId) });
+      await queryClient.invalidateQueries({
+        queryKey: contentKeys.collection(variables.collectionId),
+      });
     },
   });
 }

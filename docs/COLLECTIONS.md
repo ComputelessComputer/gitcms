@@ -33,13 +33,13 @@ export default defineConfig({
 
 ## Field Types
 
-| Type | UI control | Frontmatter value |
-| --- | --- | --- |
-| `string` | text input | string |
-| `date` | date input | ISO date string |
-| `boolean` | checkbox | boolean |
-| `string-array` | comma-separated input | string array |
-| `number` | number input | number |
+| Type           | UI control            | Frontmatter value |
+| -------------- | --------------------- | ----------------- |
+| `string`       | text input            | string            |
+| `date`         | date input            | ISO date string   |
+| `boolean`      | checkbox              | boolean           |
+| `string-array` | comma-separated input | string array      |
+| `number`       | number input          | number            |
 
 `required` marks fields the operator expects editors to fill. `default` seeds new files.
 

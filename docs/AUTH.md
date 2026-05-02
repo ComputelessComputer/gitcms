@@ -87,9 +87,9 @@ Identifiers are matched case-insensitively, in this order:
 
 The CMS needs a GitHub token to commit content. Two sources, picked with `GITCMS_GITHUB_TOKEN_SOURCE`:
 
-| Source | When to use | Commit attribution |
-|---|---|---|
-| `oauth` | `AUTH_MODE=github`. The user's own OAuth token signs commits. | Human author |
+| Source    | When to use                                                        | Commit attribution                      |
+| --------- | ------------------------------------------------------------------ | --------------------------------------- |
+| `oauth`   | `AUTH_MODE=github`. The user's own OAuth token signs commits.      | Human author                            |
 | `service` | Any non-GitHub auth mode, or when you want clean bot-only commits. | Bot (set `GITCMS_GITHUB_SERVICE_TOKEN`) |
 
 When using `service` source with non-GitHub auth, add a `Co-authored-by` trailer to commit messages so the human author is preserved in git history. Future versions will do this automatically.
@@ -101,12 +101,12 @@ The service token can be:
 
 ## Compatibility matrix
 
-| Auth mode | Token source | Use case |
-|---|---|---|
-| `github` | `oauth` | Solo dev, small team. Default. Per-author commits. |
-| `github` | `service` | Solo dev who prefers a tidy bot-attributed git log. |
-| `jwt` | `service` | Team using SSO (Clerk, WorkOS, Auth0, Supabase Auth, …). |
-| `jwt` | `oauth` | ❌ Invalid — JWT users have no GitHub OAuth token. |
+| Auth mode | Token source | Use case                                                 |
+| --------- | ------------ | -------------------------------------------------------- |
+| `github`  | `oauth`      | Solo dev, small team. Default. Per-author commits.       |
+| `github`  | `service`    | Solo dev who prefers a tidy bot-attributed git log.      |
+| `jwt`     | `service`    | Team using SSO (Clerk, WorkOS, Auth0, Supabase Auth, …). |
+| `jwt`     | `oauth`      | ❌ Invalid — JWT users have no GitHub OAuth token.       |
 
 ## Threat model
 

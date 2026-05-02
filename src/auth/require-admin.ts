@@ -1,7 +1,4 @@
-import {
-  getGitHubTokenForIdentity,
-  requireMember,
-} from "./index";
+import { getGitHubTokenForIdentity, requireMember } from "./index";
 import type { AuthIdentity } from "./adapter";
 import type { Member } from "./members";
 

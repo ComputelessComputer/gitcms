@@ -116,9 +116,7 @@ export class JwtAuthAdapter implements AuthAdapter {
 
     const subject = readClaim(payload, this.claimSubject);
     if (!subject) {
-      throw new AdminUnauthorizedError(
-        `JWT is missing required claim "${this.claimSubject}".`,
-      );
+      throw new AdminUnauthorizedError(`JWT is missing required claim "${this.claimSubject}".`);
     }
     return {
       subject: `jwt:${subject}`,
