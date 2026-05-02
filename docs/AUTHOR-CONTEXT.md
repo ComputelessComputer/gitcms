@@ -131,9 +131,21 @@ No: "Acme provides seamless integration with your financial institution."
 
 It's just markdown. Edit it like any other content file:
 
-- Through the gitcms editor UI (when the writing-brief panel ships in a future PR)
+- Through the gitcms editor — the "Writing brief" panel above each article shows the current merged brief, so authors see the rules without leaving the editor. Read-only in v0.0.1; edit the underlying files in your repo.
 - Directly in your editor — open `content/.gitcms/context.md` and commit
 - Through a PR review process — the brief is versioned with content, so changes to brand voice show up in git history with attribution
+
+### Bootstrapping starter files
+
+Run from your project root (where `gitcms.config.ts` lives):
+
+```bash
+pnpm gitcms:init-context              # writes context.md and voice.md (skips if present)
+pnpm gitcms:init-context blog         # also writes a blog-specific voice override
+pnpm gitcms:init-context --force      # overwrite existing files
+```
+
+The starter files are intentionally generic — replace the placeholders with your own brand, audience, and rules. The script never commits or pushes; it just writes local files for you to review and commit normally.
 
 ## Why "context as content"
 
