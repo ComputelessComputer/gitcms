@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+dist/
+.output/
+.vinxi/
+.nitro/
+coverage/
+*.log
+LOCAL_STORAGE_ROOT/

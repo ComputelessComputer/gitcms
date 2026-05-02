@@ -1,0 +1,9 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node .output/server/index.mjs"
+healthcheckPath = "/auth/signin"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"

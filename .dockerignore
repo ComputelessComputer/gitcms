@@ -1,0 +1,7 @@
+node_modules
+.git
+.output
+dist
+coverage
+.env
+LOCAL_STORAGE_ROOT

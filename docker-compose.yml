@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./gitcms.config.ts:/app/gitcms.config.ts:ro
+      - ./LOCAL_STORAGE_ROOT:/app/LOCAL_STORAGE_ROOT
