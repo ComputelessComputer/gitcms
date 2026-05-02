@@ -38,6 +38,9 @@ gitcms/
 │   │   ├── supabase.ts
 │   │   ├── s3.ts
 │   │   └── local.ts
+│   ├── context/                  # author writing-brief loader
+│   │   ├── paths.ts              # `<content>/.gitcms/...` path helpers
+│   │   └── loader.ts             # loadAuthorContext() + mergeAuthorContext()
 │   ├── server/
 │   │   ├── fn/                   # @tanstack/react-start server functions (the API)
 │   │   │   ├── content.ts        # contentList/Read/Save/Rename/Delete + PR + branch
