@@ -3,7 +3,7 @@ import { BookOpenTextIcon, ChevronDownIcon, ChevronRightIcon, CopyIcon } from "l
 import * as React from "react";
 
 import { authorContextQueryOptions } from "../queries/context";
-import { markdownToHtml } from "../client/tiptap/markdown-serializer";
+import { markdownToHtml } from "../markdown";
 import { Button } from "./ui/button";
 
 export interface AuthorContextPanelProps {
@@ -71,8 +71,7 @@ export function AuthorContextPanel({
             <div
               className="prose prose-sm max-w-none text-slate-700"
               // The brief is operator-authored markdown from the content repo.
-              // marked is configured by the existing tiptap pipeline; we trust
-              // the same source here.
+              // It is trusted in the same way as the editor body content.
               dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (

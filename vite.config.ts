@@ -11,19 +11,22 @@ import tsConfigPaths from "vite-tsconfig-paths";
 // node server which is what Docker-based hosts want.
 const nitroPreset = process.env.NITRO_PRESET ?? "node-server";
 
-export default defineConfig({
-  server: {
-    port: 3000,
-  },
-  test: {
-    environment: "node",
-    globals: true,
-  },
-  plugins: [
-    tsConfigPaths(),
-    tailwindcss(),
-    tanstackStart(),
-    nitro({ preset: nitroPreset }),
-    viteReact(),
-  ],
+export default defineConfig(({ mode }) => {
+  const isTest = mode === "test";
+
+  return {
+    server: {
+      port: 3000,
+    },
+    test: {
+      environment: "node",
+      globals: true,
+    },
+    plugins: [
+      tsConfigPaths(),
+      tailwindcss(),
+      ...(isTest ? [] : [tanstackStart(), nitro({ preset: nitroPreset })]),
+      viteReact(),
+    ],
+  };
 });
