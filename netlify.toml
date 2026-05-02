@@ -1,6 +1,6 @@
 [build]
-  command = "pnpm build"
-  publish = "dist/client"
+  command = "NITRO_PRESET=netlify pnpm build"
+  publish = "dist"
 
 [dev]
   command = "pnpm dev"

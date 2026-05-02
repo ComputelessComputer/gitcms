@@ -42,11 +42,11 @@ Update `app = "gitcms"` in `fly.toml` if your Fly app name differs.
 
 ## Vercel
 
-Import the repository in Vercel, set the install command to `pnpm install --frozen-lockfile=false`, the build command to `pnpm build`, and add the environment variables. TanStack Start runs as an SSR app, so keep the OAuth callback URL pointed at the Vercel production domain.
+Import the repository in Vercel — `vercel.json` already sets the build command to `NITRO_PRESET=vercel pnpm build`, which makes nitro emit Vercel's Build Output API v3 layout under `.vercel/output/`. Add the env vars from `.env.example` in the Vercel dashboard and point your GitHub OAuth callback at the Vercel production domain.
 
 ## Netlify
 
-`netlify.toml` configures a standard Vite build. Add the same environment variables in Netlify, then deploy from Git. For production SSR deployments, use Netlify's TanStack Start plugin if you need platform-native functions.
+`netlify.toml` runs `NITRO_PRESET=netlify pnpm build`, which produces a Netlify server function under `.netlify/functions-internal/server/` plus static assets in `dist/` (with the `_redirects` file nitro generates for SSR routing). Add the same environment variables in Netlify and deploy from Git.
 
 ## Required Variables
 

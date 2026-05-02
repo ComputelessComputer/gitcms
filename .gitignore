@@ -5,6 +5,8 @@ node_modules/
 !.env.example
 dist/
 .output/
+.vercel/
+.netlify/
 .vinxi/
 .nitro/
 coverage/
