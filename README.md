@@ -4,6 +4,24 @@
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
 
+## See it in action
+
+Screenshots from [char.com](https://char.com) — Char's marketing site, running on gitcms today.
+
+### Editor — TipTap surface, frontmatter side-panel, Author Context inline
+
+![Content editor](https://raw.githubusercontent.com/ComputelessComputer/gitcms/main/docs/screenshots/v0.1.0/editor.png)
+
+### Media library — same storage backend, browseable as a file tree
+
+![Media library](https://raw.githubusercontent.com/ComputelessComputer/gitcms/main/docs/screenshots/v0.1.0/media-library.png)
+
+### Media picker — invoked from inside the editor, reuses everything you've already uploaded
+
+![Media picker inside editor](https://raw.githubusercontent.com/ComputelessComputer/gitcms/main/docs/screenshots/v0.1.0/media-picker.png)
+
+Editor and media library aren't two disconnected tools — they share one `StorageAdapter`, so every upload becomes part of a real reusable library.
+
 ## Features
 
 - Pluggable auth: GitHub OAuth out of the box, or any OIDC/JWT provider (Clerk, WorkOS, Auth0, Supabase Auth).
