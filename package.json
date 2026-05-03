@@ -1,6 +1,6 @@
 {
   "name": "gitcms",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Self-hostable git-based CMS with pluggable media storage.",
   "type": "module",
   "private": false,
